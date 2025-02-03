@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% block title %}AutoSpot-Home{% endblock %}
+
+{% block content %}
+{% include "header.html" %}
+
+<style>
+  /* Basic styling for the scrolling container */
+  .scroll-container {
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  /* Flex setup for the list */
+  .blog-list1 {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 10px;
+  }
+
+  /* Item styling */
+  .blog-list1 li {
+    width: 200px;
+    flex: 0 0 auto;
+  }
+
+</style>
+
+  <main>
+    <article>
+
+      <!-- 
+        - #HERO
+      -->
+<br>
+<br>
+      <section class="section hero" id="home">
+        <div class="container">
+
+          <div class="hero-content">
+          
+              <h4 class="h3 hero-title">
+                <u>TERMS & CONDITION</u> 
+              </h4>
+            
+ 
+              <br>
+            
+              <u>1. Agreement to Terms </u>
+
+ 
+              <br><br>
+              These Terms and Conditions govern your use of AUTO SPOT's services. By engaging with us, you agree to these terms. 
+              
+              <br><br>
+              
+              <u>2. Our Services</u> 
+              
+              <br><br>
+              
+              AUTO SPOT specializes in selling and buying vehicles. We provide an online platform and physical location to facilitate transactions. 
+              
+              <br><br>
+              
+              <u>3. Customer Responsibilities </u>
+              
+               
+              <br><br>
+              You agree to: 
+              
+              <br>
+              
+              Provide accurate and complete information during transactions. 
+              <br>
+              Ensure timely payments. 
+              <br>
+              Refrain from any fraudulent activities. 
+              
+              <br><br>
+              
+              <u>4. Payments</u> 
+              <br><br>
+              Payments must be made via accepted methods, including cash and bank transfer.  
+              <br>
+              All payments must be completed before ownership is transferred. 
+              
+              <br><br>
+              
+              <u>5. Refund and Return Policy</u> 
+              
+               
+              <br><br>
+              Refunds or exchanges are subject to our inspection policy. Vehicles must meet specific conditions, outlined at the time of sale. 
+              
+              <br><br>
+              
+              <u>6. Limitation of Liability</u> 
+              
+              <br><br>
+              
+                AUTO SPOT is not liable for:  
+              
+                <br>
+              
+              Issues arising after vehicle purchase unless under warranty. 
+              <br>
+              Losses caused by customer negligence. 
+              
+              <br>
+              <br>
+              <u>7. Changes to Terms</u> 
+              
+              <br><br>
+              
+              We reserve the right to update these terms as needed. Customers will be notified of any significant changes. 
+              <br>
+               
+              <br>
+              <u>8. Contact Information</u> 
+              
+              <br><br>
+              
+              For any inquiries or disputes: 
+              
+              <br>
+              
+              Phone: (+250) 794488116 
+              <br>
+              Email: autospot100@gmail.com 
+              
+               
+          </div>
+        </div>
+  
+        </div>
+      </section>
+
+
+
+
+    </article>
+  </main>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const scrollContainer = document.querySelector(".scroll-container");
+      const scrollList = document.getElementById("scrollList");
+  
+      // Duplicate list items to make the loop effect possible
+      const listItems = Array.from(scrollList.children);
+      listItems.forEach(item => {
+        const clone = item.cloneNode(true);
+        scrollList.appendChild(clone);
+      });
+  
+      let scrollPosition = 0;
+  
+      // Set up the scroll effect
+      function startScrolling() {
+        scrollPosition += 1; // Adjust speed by changing this increment
+        scrollList.style.transform = `translateX(-${scrollPosition}px)`;
+  
+        // Reset scroll position when it reaches half of the list width
+        if (scrollPosition >= scrollList.scrollWidth / 2) {
+          scrollPosition = 0;
+        }
+        
+        requestAnimationFrame(startScrolling);
+      }
+  
+      // Start the infinite scrolling animation
+      startScrolling();
+    });
+  </script>
+  
+
+
+  <!-- 
+    - #FOOTER
+  -->
+
+{% include "footer.html" %}
+
+
+  <!-- 
+    - custom js link
+  -->
+
+  <script src="{{ url_for('static', filename='assets/js/script.js')}}"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+
+{% endblock %}
+

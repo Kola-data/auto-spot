@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% block title %}AutoSpot-Sell{% endblock %}
+
+{% block content %}
+{% include "header.html" %}
+
+<style xmlns="http://www.w3.org/1999/html">
+
+  .alert-success{
+      width:100%;
+      height:auto;
+      font-size:15px;
+      color:#fff;
+      background:#27a027;
+      border-radius:5px;
+      text:center;
+      text-align:center;
+
+  }
+  .alert-error{
+      width:100%;
+      height:auto;
+      font-size:15px;
+      color:#fff;
+      background:#ff4d4d;
+      border-radius:5px;
+      text:center;
+      text-align:center;
+
+  }
+  .alert-info{
+      width:100%;
+      height:auto;
+      font-size:15px;
+      color:#fff;
+      background:#4da6ff;
+      border-radius:5px;
+      text:center;
+      text-align:center;
+
+  }
+
+</style>
+
+  <!-- 
+    - #HEADER
+  -->
+
+
+  <main>
+    <article>
+      <section class="section hero" id="home">
+        <div class="container">
+            <div class="hero-content" style="padding-top: 10px;">
+              
+              <p class="h3 hero-text">
+                Find Your Perfect Car with AUTOSPOT!
+                <br>
+Tell us what you're looking for, and we'll help you track down the car of your dreams. 
+<br>
+Fill out the form below to get started!
+              </p>
+                    
+            
+            
+                  </div>
+            
+            <div class="containerSell">
+
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'success' %}
+                                <div class="alert alert-success">
+                                  <p style="padding-top:10px;padding-bottom:10px;">{{ message }}</p>
+                                </div>
+                            {% elif category == 'error' %}
+                                <div class="alert alert-error">
+                                  <p style="padding-top:10px;padding-bottom:10px;">{{ message }}</p>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-info">
+                                  <p style="padding-top:10px;padding-bottom:10px;">{{ message }}</p>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+        <header style="font-weight: 600;">Vehicle details</header>
+
+
+        <form method="post" action="{{ url_for('add_seek') }}" class="formSell" enctype="multipart/form-data">
+
+          <div class="card">
+            
+                <div class="input-box address">
+                    <div class="column">
+                        
+                        <input type="text" name="make" placeholder="Make (car name)" required/>
+                        
+                        
+                        <input type="text" name="model" placeholder="Model"  required/>
+                        
+                        
+                        <input type="number" name="yr_mnfct" placeholder="Year of Manufacture" required/>
+                        
+
+
+                    </div>
+
+                        
+
+                    <div class="column">
+                    
+                        <div class="select-box">
+                            
+                        <select name="transmission" required>
+                            <option hidden>Transmission</option>
+                            <option value="automatic">Automatic</option>
+                            <option value="manual">Manual</option>
+                            <option value="any">Any Type</option>
+
+                        </select>
+                        </div>
+                   
+                        <div class="select-box">
+                            
+                        <select name="fuel_type" required>
+                            <option hidden>Fuel Type</option>
+                            <option value="petrol">Petrol</option>
+                            <option value="diesel">Diesel</option>
+                            <option value="hybrid">Hybrid</option>
+                            <option value="full electric">Full Electric</option>
+                            <option value="any">Any Type</option>
+
+                        </select>
+                        </div>
+                        
+                        <div class="select-box">
+                            
+                            <select name="sunroof" required>
+                            <option hidden>Sun Roof</option>
+                            <option value="yes">Nes</option>
+                            <option value="no">No</option>
+                            <option value="any">Any Type</option>
+            
+                            </select>
+                        </div>
+                        
+                    </div>
+                    
+                    
+                    <div class="column">
+                        
+                      
+                        <input type="number" name="seats" placeholder="Number of Seats" required/>
+                           
+                        <input type="number" name="doors" placeholder="Number of Doors"  required/>
+                        
+                    
+                    </div>
+
+
+                    <div class="column">
+                        
+                        <input type="number" name="mileage" placeholder="Avarage Mileage"  required/>
+                        <input type="text" name="engine" placeholder="Engine size"  required/>
+
+                        
+                    </div>
+                    <br>
+                    <div class="column">
+                        <textarea name="budget" id="" placeholder="Budget Range (specify)" rows="5" style="width: 100%; resize: none;border-radius: 5px;outline: none;border: 1px solid rgb(225, 224, 224);border: 1px solid #ddd;
+                        border-radius: 6px;
+                        padding: 15px 15px;font-size: 1rem;
+                        color: #707070;" required></textarea>
+
+                    </div>
+                    <br>
+                    <hr>
+                    <div class="column">
+                        
+                      <input type="text" name="names" placeholder="Full Names"  required/>
+                      
+                      <input type="number" name="pnum" placeholder="Phone Number"  required/>
+                      
+                  </div>
+                    </div>
+ 
+                    <button type="submit" class="btn">Submit</button>
+                    </form>
+                  </div>
+                    </div>
+                </section>
+            </div>
+    </article>
+
+  </main>
+
+  {% include "footer.html" %}
+
+
+
+
+  <!-- 
+    - #FOOTER
+  -->
+
+
+
+
+  <script src="{{ url_for('static', filename='assets/js/script.js')}}"></script>
+
+
+  <!--
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+{% endblock %}
+

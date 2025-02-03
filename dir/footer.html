@@ -1,0 +1,119 @@
+<footer class="footer">
+    <div class="container">
+
+      <div class="footer-top">
+
+        <div class="footer-brand">
+          <a href="/" class="logo">
+            <img src="{{ url_for('static', filename='logo/LOGO black.png') }}" alt="Ridex logo" style="width:150px;height:150px;margin-top:0px;">
+          </a>
+
+          <p class="footer-text">
+            Discover your dream car with AUTOSPOT! Offering reliable, affordable vehicles in Rwanda. Your journey starts here.
+<br>Drive Your Dream today!
+          </p>
+        </div>
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="footer-list-title">Our useful links</p>
+          </li>
+
+          <li>
+            <a href="/" class="footer-link">Home</a>
+          </li>
+
+          <li>
+            <a href="/Buy" class="footer-link">Buy</a>
+          </li>
+
+          <li>
+            <a href="/Sell" class="footer-link">Sell</a>
+          </li>
+
+          <li>
+            <a href="/Blog" class="footer-link">Our blog</a>
+          </li>
+
+
+
+        </ul>
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="footer-list-title">Support</p>
+          </li>
+
+          <li>
+            <a href="{{url_for('privacy')}}" class="footer-link">Privacy policy</a>
+          </li>
+
+          <li>
+            <a href="{{ url_for('terms_condition') }}" class="footer-link">Terms & conditions</a>
+          </li>
+
+        </ul>
+
+        <ul style="">
+
+          <li>
+            <p class="footer-list-title">Our location in Rwanda</p>
+          </li>
+
+
+            <p class="footer-text" style="cursor:default;">
+              We currently operate online and are working to establish a physical location soon.
+              Stay tuned for updates on our future address in Rwanda!
+            </p>
+
+        </ul>
+
+      </div>
+
+      <div class="footer-bottom">
+
+        <ul class="social-list">
+
+          <li>
+            <a href="https://www.facebook.com/share/19kmCf5MHx/" target="_blank" class="social-link">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </a>
+          </li>
+
+          <li>
+            <a href="https://www.instagram.com/autospot_rw?igsh=MWR4NGFoOTJ6NWs5cQ==" target="_blank" class="social-link">
+              <ion-icon name="logo-instagram"></ion-icon>
+            </a>
+          </li>
+
+          <li>
+            <a href="https://x.com/AUTOSPOT_rw?t=mXD2bY7_OKgYYlPPrm88FQ&s=09" target="_blank" class="social-link">
+              <ion-icon name="logo-twitter"></ion-icon>
+            </a>
+          </li>
+
+          <li>
+            <a href="http://www.linkedin.com/in/autospot-rw-556827345" target="_blank" class="social-link">
+              <ion-icon name="logo-linkedin"></ion-icon>
+            </a>
+          </li>
+
+
+          <li>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=autospot100@gmail.com" target="_blank" class="social-link">
+              <ion-icon name="mail-outline"></ion-icon>
+            </a>
+          </li>
+
+        </ul>
+
+        <p class="copyright">
+          &copy; 2024 - {{ current_year }} AutoSpot <a href="#"> designed by Kwola-Labs</a>. All Rights Reserved
+        </p>
+
+      </div>
+
+    </div>
+  </footer>

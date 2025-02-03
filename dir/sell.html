@@ -1,0 +1,418 @@
+{% extends "base.html" %}
+{% block title %}AutoSpot-Sell{% endblock %}
+
+{% block content %}
+{% include "header.html" %}
+
+<style>
+
+  .alert-success{
+      width:100%;
+      height:auto;
+      font-size:15px;
+      color:#fff;
+      background:#27a027;
+      border-radius:5px;
+      text:center;
+      text-align:center;
+
+  }
+  .alert-error{
+      width:100%;
+      height:auto;
+      font-size:15px;
+      color:#fff;
+      background:#ff4d4d;
+      border-radius:5px;
+      text:center;
+      text-align:center;
+
+  }
+  .alert-info{
+      width:100%;
+      height:auto;
+      font-size:15px;
+      color:#fff;
+      background:#4da6ff;
+      border-radius:5px;
+      text:center;
+      text-align:center;
+
+  }
+
+</style>
+
+  <!-- 
+    - #HEADER
+  -->
+
+
+  <main>
+    <article>
+      <section class="section hero" id="home">
+        <div class="container">
+
+          <div class="container">
+            <div class="hero-content" style="padding-top: 10px;">
+                    <h2 class="h3 hero-title">Sell Your Car With Easy Steps</h2>
+                    
+                      <p class="hero-text">
+                        Provide details about your car and we will get in touch with you soon for futher deal.
+                      </p>
+                    
+            
+            
+                  </div>
+            </div>
+
+          <div class="containerSell">
+
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'success' %}
+                                <div class="alert alert-success">
+                                  <p style="padding-top:10px;padding-bottom:10px;">{{ message }}</p>
+                                </div>
+                            {% elif category == 'error' %}
+                                <div class="alert alert-error">
+                                  <p style="padding-top:10px;padding-bottom:10px;">{{ message }}</p>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-info">
+                                  <p style="padding-top:10px;padding-bottom:10px;">{{ message }}</p>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+        <header>Vehicle details</header>
+
+
+        <form method="post" action="{{ url_for('upload') }}" class="formSell" enctype="multipart/form-data">
+        <div class="card">
+            <div class="top">
+                <div class="input-box">
+                    <input type="file" name="files[]" class="file" accept="image/*" multiple required/>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="select-box">
+            <select name="car_condition">
+                <option hidden>Condition</option>
+                <option value="new">New</option>
+                <option value="used">Used</option>
+            </select>
+        </div>
+
+        <div class="column">
+            <div class="input-box">
+                <input type="text" name="make" placeholder="Make" required/>
+            </div>
+            <div class="input-box">
+                <input type="text" name="model" placeholder="Model" required/>
+            </div>
+            <div class="input-box">
+                <input type="number" name="mileage" placeholder="Mileage" required/>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="input-box">
+                <input type="number" name="yrs_mnfctr" placeholder="Year of manufacture" required/>
+            </div>
+            <div class="input-box">
+                <input type="text" name="cntry_mnfctr" placeholder="Country of manufacture" required/>
+            </div>
+            <div class="input-box">
+                <input type="text" name="color" placeholder="Color" required/>
+            </div>
+        </div>
+
+        <div class="input-box address">
+            <div class="column">
+                <div class="select-box">
+                    <select name="body_type">
+                        <option hidden>Body Type</option>
+                        <option value="Sedan">Sedan</option>
+                        <option value="Coupe">Coupe</option>
+                        <option value="Convertible">Convertible</option>
+                        <option value="Hatchback">Hatchback</option>
+                        <option value="Station_Wagon">Station Wagon</option>
+                        <option value="Crossover">Crossover</option>
+                        <option value="Suv">Suv</option>
+                        <option value="Pickup">Pick Up</option>
+                        <option value="Minivan">Minivan</option>
+                        <option value="Van">Van</option>
+                        <option value="Mini_Bus">Mini Bus</option>
+                        <option value="Bus">Bus</option>
+                        <option value="Heavy_Truck">Heavy Truck</option>
+                        <option value="Tractor">Tractor</option>
+                    </select>
+                </div>
+                <input type="number" name="nmbr_seats" placeholder="Number of seats" required/>
+                <input type="number" name="nmbr_doors" placeholder="Number of doors" required/>
+            </div>
+        </div>
+        <br>
+
+        <div class="column">
+            <div class="select-box">
+                <select name="sun_roof">
+                    <option hidden>SunRoof</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <br>
+            <div class="select-box">
+                <select name="transmission">
+                    <option hidden>Transmission</option>
+                    <option value="automatic">Automatic</option>
+                    <option value="manual">Manual</option>
+                </select>
+            </div>
+            <br>
+            <div class="select-box">
+                <select name="fuel_type">
+                    <option hidden>Fuel Type</option>
+                    <option value="petrol">Petrol</option>
+                    <option value="diesel">Diesel</option>
+                    <option value="hybrid">Hybrid</option>
+                    <option value="full electric">Full Electric</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="input-box address">
+            <div class="column">
+                <div class="select-box">
+                    <select name="drive_train">
+                        <option hidden>DriveTrain</option>
+                        <option value="fwd">FWD</option>
+                        <option value="rwd">RWD</option>
+                        <option value="awd">AWD</option>
+                        <option value="4wd/4x4">4WD /4X4</option>
+                    </select>
+                </div>
+                <br>
+                <div class="select-box">
+                    <select name="num_cylndrs">
+                        <option hidden>Number of Cylinders</option>
+                        <option value="4">4 Cylinders</option>
+                        <option value="6">6 Cylinders</option>
+                        <option value="8">8 Cylinders</option>
+                        <option value="12">12 Cylinders</option>
+                    </select>
+                </div>
+                <input type="number" name="money" placeholder="Selling Price" required/>
+            </div>
+        </div>
+
+        <div class="gender-box">
+            <h3 style="font-size: 1rem;font-weight: 600;color: #878a9a;">Currency</h3>
+            <div class="gender-option">
+                <div class="gender">
+                    <input type="checkbox" name="currency" value="rwf" />
+                    <label>RWF</label>
+                </div>
+                <div class="gender">
+                    <input type="checkbox" name="currency" value="usd" />
+                    <label>USD</label>
+                </div>
+                <div class="gender">
+                    <input type="checkbox" name="currency" value="euro" />
+                    <label>EURO</label>
+                </div>
+                <div class="gender">
+                    <input type="checkbox" name="currency" value="pound" />
+                    <label>POUND</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="input-box">
+                <label style="font-size: 1rem;font-weight: 600;color: #878a9a;">Insurance Valid Till</label>
+                <input type="date" name="insrd_till" placeholder="Insured till" required/>
+            </div>
+            <div class="input-box">
+                <label style="font-size: 1rem;font-weight: 600;color: #878a9a;">Technical Inspection Valid Till</label>
+                <input type="date" name="techn_insp_val_till" placeholder="Technical inspection valid till" required/>
+            </div>
+        </div>
+
+        <div class="gender-box">
+            <h3 style="font-size: 1rem;font-weight: 600;color: #878a9a;">Seller</h3>
+            <div class="gender-option">
+                <div class="gender">
+                    <input type="radio" id="check-male" name="client" value="owner" required/>
+                    <label for="check-male">Owner</label>
+                </div>
+                <div class="gender">
+                    <input type="radio" id="check-female" name="client" value="broker" required/>
+                    <label for="check-female">Broker</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="input-box">
+                <label style="font-size: 1rem;font-weight: 600;color: #878a9a;">Full name</label>
+                <input type="text" name="full_name" placeholder="Full name" required/>
+            </div>
+            <div class="input-box">
+                <label style="font-size: 1rem;font-weight: 600;color: #878a9a;">Phone number</label>
+                <input type="number" name="ph_num" placeholder="Phone number" required/>
+            </div>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+          </div>
+      </div>
+      
+      </section>
+    </article>
+
+  </main>
+
+  {% include "footer.html" %}
+
+ 
+
+
+
+  <!-- 
+    - #FOOTER
+  -->
+
+
+
+
+  <script src="{{ url_for('static', filename='assets/js/script.js')}}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.formSell');
+        const currencyCheckboxes = document.querySelectorAll('input[name="currency"]');
+
+        function createErrorMessage(element, message) {
+            const existingError = element.parentNode.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'error-message';
+            errorMsg.style.color = 'red';
+            errorMsg.style.fontSize = '0.8rem';
+            errorMsg.style.marginTop = '5px';
+            errorMsg.textContent = message;
+
+            element.parentNode.insertBefore(errorMsg, element.nextSibling);
+        }
+
+        function removeErrorMessage(element) {
+            const existingError = element.parentNode.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+        }
+
+        currencyCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    currencyCheckboxes.forEach(otherCheckbox => {
+                        if (otherCheckbox !== this) {
+                            otherCheckbox.checked = false;
+                        }
+                    });
+                }
+            });
+        });
+
+        form.addEventListener('submit', function(event) {
+            const errorFields = document.querySelectorAll('.error');
+            errorFields.forEach(field => {
+                field.classList.remove('error');
+                removeErrorMessage(field);
+            });
+
+            let isValid = true;
+
+            const fileInput = form.querySelector('input[type="file"]');
+            if (fileInput.files.length === 0) {
+                fileInput.classList.add('error');
+                createErrorMessage(fileInput, 'Please upload an image');
+                isValid = false;
+            }
+
+            const textInputs = form.querySelectorAll('input[type="text"], input[type="number"]');
+            textInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.classList.add('error');
+                    createErrorMessage(input, `Please enter ${input.placeholder}`);
+                    isValid = false;
+                }
+            });
+
+            const selects = form.querySelectorAll('select');
+            selects.forEach(select => {
+                if (select.value === '' || select.options[select.selectedIndex].hidden) {
+                    select.classList.add('error');
+                    createErrorMessage(select, `Please select a ${select.name}`);
+                    isValid = false;
+                }
+            });
+
+            const currencyChecked = Array.from(currencyCheckboxes).some(checkbox => checkbox.checked);
+            if (!currencyChecked) {
+                currencyCheckboxes[0].closest('.gender-box').classList.add('error');
+                createErrorMessage(currencyCheckboxes[0], 'Please select a currency');
+                isValid = false;
+            }
+
+            const radioButtons = form.querySelectorAll('input[type="radio"][name="client"]');
+            const radioChecked = Array.from(radioButtons).some(radio => radio.checked);
+            if (!radioChecked) {
+                radioButtons[0].closest('.gender-box').classList.add('error');
+                createErrorMessage(radioButtons[0], 'Please select seller type');
+                isValid = false;
+            }
+
+            const dateInputs = form.querySelectorAll('input[type="date"]');
+            dateInputs.forEach(dateInput => {
+                if (!dateInput.value) {
+                    dateInput.classList.add('error');
+                    createErrorMessage(dateInput, 'Please select a date');
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+
+        const inputs = form.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value.trim() !== '') {
+                    this.classList.remove('error');
+                    removeErrorMessage(this);
+                }
+            });
+        });
+    });
+    </script>
+  <!--
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+{% endblock %}
+

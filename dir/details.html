@@ -1,0 +1,308 @@
+{% extends "base.html" %}
+{% block title %}AutoSpot - Details{% endblock %}
+
+{% block content %}
+{% include "header.html" %}
+<head>
+  <meta property="og:title" content="{{ item.make }} {{ item.model }} for Sale">
+  <meta property="og:description" content="Available for {{ item.money }} {{ item.currency }}. Check out this amazing car!">
+  <meta property="og:image" content="{{ url_for('static', filename='sell_imgs/' + images[0].url, _external=True) }}">
+  <meta property="og:url" content="{{ request.url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+</head>
+
+
+<style>
+  .main_image {
+  position: relative;
+}
+
+.nav-buttons-slide {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.slide-btn {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+.slide-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.slide-btn:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+  .containerlg {
+    max-width: 75%;
+    margin: auto;
+    height: auto;
+    margin-top: 5%;
+    padding: 20px;
+  }
+
+  .flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .main_image img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+  }
+
+  .option img {
+    width: 75px;
+    height: 75px;
+    margin-top: 20px;
+    padding: 5px;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+
+  .option img:hover, .option img.active {
+    border-color: #3366ff;
+  }
+
+  .car-details-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .left {
+    flex: 1;
+  }
+
+  .right {
+    flex: 1;
+  }
+
+  .color.flex1 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    text-transform: capitalize;
+  }
+
+  .color.flex1 span {
+    width: calc(50% - 20px); /* Two items per line */
+  }
+
+  .button-container {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+  }
+
+  .share-button, .call-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    color: white;
+  }
+
+  .share-button {
+    background-color: #25D366; /* WhatsApp green */
+  }
+
+  .call-button {
+    background-color: #007bff; /* Blue for call */
+  }
+
+  .button-icon {
+    margin-right: 8px;
+    font-size: 18px;
+  }
+
+  /* Responsive adjustments */
+  @media only screen and (max-width: 1150px) {
+    .containerlg {
+      max-width: 90%;
+    }
+
+    .car-details-container {
+      flex-direction: column; /* Stack on smaller screens */
+    }
+
+    .color.flex1 span {
+      width: 100%; /* Full width on smaller screens */
+    }
+  }
+
+  @media only screen and (max-width: 620px) {
+    .containerlg {
+      max-width: 100%;
+    }
+
+    .left, .right {
+      padding: 15px;
+    }
+  }
+</style>
+
+<body>
+
+<main>
+  <article>
+    <section>
+      <br>
+      <br>
+      <div class="containerlg car-details-container">
+        <!-- Images Section -->
+        <div class="left">
+          <!-- Main Image -->
+          <div class="main_image">
+            <img id="mainImage" src="{{ url_for('static', filename='sell_imgs/' + images[0].url) }}" class="slide" alt="Main Image">
+          </div>
+
+          <!-- Navigation Buttons -->
+          <div class="nav-buttons-slide">
+            <button id="prevBtn" class="slide-btn" onclick="changeImage(-1)">&#10094;</button>
+            <button id="nextBtn" class="slide-btn" onclick="changeImage(1)">&#10095;</button>
+          </div>
+
+          <!-- Thumbnail Images -->
+          <div class="option flex">
+            {% for image in images %}
+              <img src="{{ url_for('static', filename='sell_imgs/' + image.url) }}" onclick="imgSwitch(this.src)" alt="Thumbnail Image">
+            {% endfor %}
+          </div>
+        </div>
+
+
+        <!-- Car Details Section -->
+        <div class="right">
+          <div class="color flex1">
+            
+            <span>Car: <strong>{{ item.make }} - {{ item.model }}</strong></span>
+            <span>Condition: <strong>{{ item.car_condition }}</strong></span>
+            <span>Mileage: <strong>{{ item.mileage }}</strong></span>
+            <span>Year of Manufacture: <strong>{{ item.yrs_mnfctr }}</strong></span>
+            <span>Country of Manufacture: <strong>{{ item.cntry_mnfctr }}</strong></span>
+            <span>Color: <strong>{{ item.color }}</strong></span>
+            <span>Body Type: <strong>{{ item.body_type }}</strong></span>
+            <span>Seats: <strong>{{ item.nmbr_seats }}</strong></span>
+            <span>Doors: <strong>{{ item.nmbr_doors }}</strong></span>
+            <span>Sun Roof: <strong>{{ item.sun_roof }}</strong></span>
+            <span>Transmission: <strong>{{ item.transmission }}</strong></span>
+            <span>Fuel Type: <strong>{{ item.fuel_type }}</strong></span>
+            <span>Drive Train: <strong>{{ item.drive_train }}</strong></span>
+            <span>Cylinders: <strong>{{ item.num_cylndrs }}</strong></span>
+            <span>Price: <strong>{{ item.money }} {{ item.currency }}</strong></span>
+            <span>Insured Till: <strong>{{ item.insrd_till }}</strong></span>
+            <span>Technical Inspection Till: <strong>{{ item.techn_insp_val_till }}</strong></span>
+
+          </div>
+
+          <!-- Button Container -->
+          <div class="button-container">
+          
+            <!-- WhatsApp Share Button -->
+            <a href="https://wa.me/250794488116/?text={{ ('I\'m looking for this vehicle -> ' + item.make + ' ' + item.model + ' available at ' + item.money + ' ' + item.currency + '. View more details here: ' + request.url) | urlencode }}" 
+              class="share-button" target="_blank">
+              <ion-icon name="logo-whatsapp" class="button-icon"></ion-icon>
+              Chat with us
+           </a>
+           
+
+
+            <!-- Call Button -->
+            <a href="tel:0794488116" class="call-button">
+              <ion-icon name="call" class="button-icon"></ion-icon>
+              Call Now
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <br>
+    <br>
+
+    <script>
+      function imgSwitch(src) {
+        document.querySelector('.slide').src = src;
+        document.querySelectorAll('.option img').forEach(img => img.classList.remove('active'));
+        event.target.classList.add('active');
+      }
+      let currentIndex = 0;
+const images = {{ images|tojson }};
+const mainImage = document.getElementById("mainImage");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+// Function to switch the main image
+function imgSwitch(src) {
+  mainImage.src = src;
+  currentIndex = images.findIndex(img => src.includes(img.url));
+  updateButtons();
+}
+
+// Function to change the image using buttons
+function changeImage(direction) {
+  currentIndex += direction;
+  mainImage.src = "{{ url_for('static', filename='sell_imgs/') }}" + images[currentIndex].url;
+  updateButtons();
+}
+
+// Update button visibility
+function updateButtons() {
+  prevBtn.disabled = currentIndex === 0;
+  nextBtn.disabled = currentIndex === images.length - 1;
+}
+
+// Swipe functionality for touchscreens
+let startX = 0;
+
+mainImage.addEventListener("touchstart", (e) => {
+  startX = e.touches[0].clientX;
+});
+
+mainImage.addEventListener("touchend", (e) => {
+  const endX = e.changedTouches[0].clientX;
+  if (startX - endX > 50) {
+    // Swipe left
+    if (currentIndex < images.length - 1) {
+      changeImage(1);
+    }
+  } else if (endX - startX > 50) {
+    // Swipe right
+    if (currentIndex > 0) {
+      changeImage(-1);
+    }
+  }
+});
+
+// Initial button state
+updateButtons();
+
+    </script>
+  </article>
+</main>
+
+{% include "footer.html" %}
+
+<script src="{{ url_for('static', filename='assets/js/script.js') }}"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+{% endblock %}
+

@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+{% block title %}AutoSpot-Home{% endblock %}
+
+{% block content %}
+{% include "header.html" %}
+
+<style>
+  /* Basic styling for the scrolling container */
+  .scroll-container {
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  /* Flex setup for the list */
+  .blog-list1 {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 10px;
+  }
+
+  /* Item styling */
+  .blog-list1 li {
+    width: 200px;
+    flex: 0 0 auto;
+  }
+
+</style>
+
+  <main>
+    <article>
+
+      <!-- 
+        - #HERO
+      -->
+<br>
+<br>
+      <section class="section hero" id="home">
+        <div class="container">
+
+          <div class="hero-content">
+          
+              <h4 class="h3 hero-title">
+                <u>PRIVACY POLICY</u>  
+              </h4>
+            
+ 
+              <br>
+            
+              
+
+
+              <u>1. Introduction</u> 
+              
+              <br>
+              <br>
+              
+              At AUTOSPOT, we are committed to protecting your privacy.
+              <br>
+              This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you interact with us. 
+              <br>
+              By accessing or using our services, you agree to the practices outlined in this policy. 
+              
+               
+              <br><br>
+              <u>2. Information We Collect</u> 
+              
+              <br><br>
+              
+                 We may collect the following types of information: 
+              
+                 <br>
+              
+              Personal Information: Name, phone number, email address, and other contact details. 
+              <br>
+              Transaction Data: Details about car purchases or sales. 
+              <br>
+              Technical Data: IP address, browser type, and activity on our website. 
+              
+              <br>
+              <br>
+              <u>3. How We Use Your Information</u> 
+              
+              <br><br>
+              
+                  We use the information collected to: 
+              
+                  <br>
+              
+              Provide and manage our services. 
+              <br>
+              Communicate with you regarding inquiries or transactions. 
+              <br>
+              Send promotional offers, with your consent. 
+              <br>
+              Improve our website and services. 
+              
+              <br><br>
+              
+              <u>4. Sharing Your Information</u> 
+              
+              <br><br>
+              
+                  We will never sell your data. We may share it only with: 
+              
+                  <br>
+              
+              Trusted partners for service delivery (e.g., payment processors). 
+              <br>
+              Authorities, when required by law. 
+              
+              <br><br>
+              
+              <u>5. Data Security</u> 
+              <br>
+              <br>
+              
+              We implement technical and organizational measures to protect your data against unauthorized access, alteration, disclosure, or destruction. 
+              <br>
+               
+              <br>
+              <u>6. Your Rights</u> 
+              <br><br>
+               
+              
+                 You have the right to: 
+                 <br>
+               
+              
+              Access your data. 
+              <br>
+              Request corrections or deletions. 
+              <br>
+              Opt-out of marketing communications. 
+              <br>
+               
+              <br>
+              <u>7. Contact Us</u> 
+              <br><br>
+               
+              
+              For any questions about this policy or your data, contact us at: 
+              <br>
+               
+              
+              Phone: (+250) 794488116 
+              <br>
+              Email: autospot100@gmail.com 
+               
+          </div>
+        </div>
+        
+
+          
+
+        </div>
+      </section>
+
+
+
+
+    </article>
+  </main>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const scrollContainer = document.querySelector(".scroll-container");
+      const scrollList = document.getElementById("scrollList");
+  
+      // Duplicate list items to make the loop effect possible
+      const listItems = Array.from(scrollList.children);
+      listItems.forEach(item => {
+        const clone = item.cloneNode(true);
+        scrollList.appendChild(clone);
+      });
+  
+      let scrollPosition = 0;
+  
+      // Set up the scroll effect
+      function startScrolling() {
+        scrollPosition += 1; // Adjust speed by changing this increment
+        scrollList.style.transform = `translateX(-${scrollPosition}px)`;
+  
+        // Reset scroll position when it reaches half of the list width
+        if (scrollPosition >= scrollList.scrollWidth / 2) {
+          scrollPosition = 0;
+        }
+        
+        requestAnimationFrame(startScrolling);
+      }
+  
+      // Start the infinite scrolling animation
+      startScrolling();
+    });
+  </script>
+  
+
+
+  <!-- 
+    - #FOOTER
+  -->
+
+{% include "footer.html" %}
+
+
+  <!-- 
+    - custom js link
+  -->
+
+  <script src="{{ url_for('static', filename='assets/js/script.js')}}"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+
+{% endblock %}
+

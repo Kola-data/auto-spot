@@ -1,0 +1,329 @@
+{% extends "base.html" %}
+{% block title %}AutoSpot-Buy{% endblock %}
+
+{% block content %}
+{% include "header.html" %}
+
+<style>
+    *{
+
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }
+    body{
+        width:100%;
+
+    }
+    /* Field styling */
+    .form-field {
+        height:45px;
+        border:1px solid #8c8c8c;
+        border-radius:5px;
+        padding-left:10px;
+        font-size:15px;
+        font-weight:600;
+    }
+    input, select{
+        border:none;
+        outline:none;
+        background:transparent;
+        height:45px;
+        font-size:15px;
+        color:#8c8c8c;
+        
+    }
+
+
+    /* Styling for larger screens: fields inline */
+    @media (min-width: 768px) {
+      .form-container {
+        display: flex;
+        justify-content: space-between;
+      }
+      .form-field {
+        flex: 1;
+        margin-right: 10px;
+      }
+      .form-field:last-child {
+        margin-right: 0;
+      }
+    }
+
+    /* Styling for smaller screens: stacked fields */
+    @media (max-width: 767px) {
+      .form-container {
+        display: block;
+      }
+      .form-field {
+        margin-bottom: 10px;
+      }
+    }
+
+    .result-box ul{
+        border:5px;
+        background:white;
+        max-height:200px;
+        overflow-y:auto;
+    }
+
+
+    .result-box li{
+       list-style:none;
+       border-radius:3px;
+       padding:5px 10px;
+       cursor:pointer;
+    }
+    .result-box ul li:hover{
+        background:#e9f3ff;
+    }
+    #display_html {
+    text-align: center;
+    font-size: 1.2em;
+    color: #555;
+    padding: 20px 0;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    }
+
+    /* Style for the no-results image */
+    #display_html img {
+        width: 100px; /* Adjust width as needed */
+        height: auto;
+        display: none; /* Hide initially */
+    }
+
+    /* Display image when there's no result */
+    #display_html.no-results img {
+        display: block;
+    }
+</style>
+
+<br>
+<br>
+<br>
+<br>
+
+
+<main>
+
+<article>
+
+      <section class="section featured-car" id="featured-car">
+
+        <div class="container">
+        <form>
+                <div class="form-container">
+      <!-- Text input field -->
+                    <div style="width:100%; padding:10px;">
+                        <label>Type car name</label>
+                          <div class="form-field">
+
+                            <input type="text" name="" id="search-item" style="width: 100%;" placeholder="search car"
+                            onkeyup="search()">
+                          </div>
+                    </div>
+
+          <!-- Select field for car body type -->
+                    <div style="width:100%; padding:10px;">
+                        <label>Choose body type</label>
+                          <div class="form-field" >
+
+                            <select id="type-select" style="width:100%;">
+                                <option value="all">All</option>
+                                <option value="Sedan">Sedan</option>
+                                <option value="Coupe">Coupe</option>
+                                <option value="Convertible">Convertible </option>
+                                <option value="Hatchback">Hatchback</option>
+                                <option value="Station_Wagon">Station Wagon</option>
+                                <option value="Crossover">Crossover</option>
+                                <option value="Suv">Suv</option>
+                                <option value="Pickup">Pick Up</option>
+                                <option value="Minivan">Minivan</option>
+                                <option value="Van">Van</option>
+                                <option value="Mini_Bus">Mini Bus</option>
+                                <option value="Bus">Bus</option>
+                                <option value="Heavy_Truck">Heavy Truck</option>
+                                <option value="Tractor">Tractor</option>
+                            </select>
+
+
+                          </div>
+                    </div>
+
+          <!-- Select field for transmission type -->
+                    <div style="width:100%; padding:10px;">
+                        <label>Choose transmission</label>
+                          <div class="form-field">
+
+                            <select id="transmission-select" style="width:100%;">
+                                <option value="all">All</option>
+                                <option value="automatic">Automatic</option>
+                                <option value="manual">Manual</option>
+                            </select>
+
+                          </div>
+                    </div>
+
+                </div>
+              </form>
+
+              <div id="display_html" style="align-items: center;justify-content: center;">
+
+              </div>
+
+          <div class="title-wrapper">
+
+
+          <ul class="featured-car-list" id="product-list">
+
+
+               {% for pair in buy_image_pairs %}
+                    <li class="product" data-type="{{ pair.car.body_type }}" data-transmission="{{ pair.car.transmission }}">
+                      <a href="{{ url_for('buy_details', prod_ref_no=pair.car.prod_id) }}">
+                        <div class="featured-car-card">
+
+                          <figure class="card-banner">
+                            <img src="{{ url_for('static', filename=pair.image.url) }}" alt="Image" loading="lazy" width="440" height="300" class="w-100">
+                          </figure>
+
+                          <div class="card-content">
+                            <div class="card-title-wrapper">
+                              <h3 class="h3 card-title">
+                                <a href="{{ url_for('buy_details', prod_ref_no=pair.car.prod_id) }}" style="text-transform:uppercase;">{{ pair.car.make }} <br>
+                                    <small class="footer-list-title">{{ pair.car.model }}</small></a>
+                              </h3>
+                              <data class="year" style="text-transform:capitalize;">{{ pair.car.yrs_mnfctr }}</data>
+                            </div>
+
+                            <ul class="card-list">
+                              <li class="card-list-item">
+                                <ion-icon name="key-outline"></ion-icon>
+                                <span class="card-item-text" style="text-transform:capitalize;">{{ pair.car.car_condition }}</span>
+                              </li>
+                              <li class="card-list-item">
+                                <ion-icon name="car-outline"></ion-icon>
+                                <span class="card-item-text" style="text-transform:capitalize;">{{ pair.car.body_type }}</span>
+                              </li>
+                              <li class="card-list-item">
+
+            <img src="{{ url_for('static', filename='sell_imgs/car-seat.png') }}" style="width:20px; height:20px;">
+            <span class="card-item-text" style="text-transform:capitalize;">{{ pair.car.nmbr_seats }} People</span>
+          </li>
+                              <li class="card-list-item">
+                                <ion-icon name="flash-outline"></ion-icon>
+                                <span class="card-item-text" style="text-transform:capitalize;">{{ pair.car.fuel_type }}</span>
+                              </li>
+                              <li class="card-list-item">
+                                <ion-icon name="speedometer-outline"></ion-icon>
+                                <span class="card-item-text" style="text-transform:capitalize;">{{ pair.car.mileage }} / Mileage</span>
+                              </li>
+                              <li class="card-list-item">
+            <ion-icon name="settings-outline"></ion-icon>
+
+            <span class="card-item-text" style="text-transform:capitalize;">{{ pair.car.transmission }}</span>
+          </li>
+                            </ul>
+
+                            <div class="card-price-wrapper">
+                              <p class="card-price" style="text-transform:capitalize;">
+                                <strong>{{ pair.car.money }}</strong> / {{ pair.car.currency }}
+                              </p>
+
+
+                                <a href="{{ url_for('buy_details', prod_ref_no=pair.car.prod_id) }}" class="btn" aria-labelledby="aria-label-txt">
+                                  <span id="aria-label-txt">Buy now</span>
+                                </a>
+
+                            </div>
+                          </div>
+
+                        </div>
+                      </a>
+                    </li>
+                {% endfor %}
+
+                    </ul>
+
+
+        </div>
+      </section>
+
+<script>
+   // Combined function to filter products by search term, type, and transmission
+function filterAndSearchProducts() {
+    const searchbox = document.getElementById("search-item").value.toUpperCase();
+    const selectedType = document.getElementById('type-select').value;
+    const selectedTransmission = document.getElementById('transmission-select').value;
+    const products = document.querySelectorAll(".product");
+    const display_html = document.getElementById("display_html");
+
+    let hasResults = false;
+
+    products.forEach(product => {
+        // Get product attributes and search text
+        const productType = product.getAttribute('data-type');
+        const productTransmission = product.getAttribute('data-transmission');
+        const productName = product.getElementsByTagName('h3')[0]?.textContent || "";
+
+        // Check if product matches search term, type, and transmission
+        const matchesSearch = productName.toUpperCase().includes(searchbox);
+        const matchesType = selectedType === 'all' || productType === selectedType;
+        const matchesTransmission = selectedTransmission === 'all' || productTransmission === selectedTransmission;
+
+        // Show product if it matches all criteria
+        if (matchesSearch && matchesType && matchesTransmission) {
+            product.style.display = "block";
+            hasResults = true;
+        } else {
+            product.style.display = "none";
+        }
+    });
+
+    // Display message if no products match the combined criteria
+    display_html.innerHTML = hasResults ? "" : 'We couldn’t find any cars matching your search at the moment. But don’t worry! Click the button below to tell us exactly what car you’re looking for. Our team will do our best to help you find it as quickly as possible!<br><br><a href="{{ url_for("seek") }}" style="height:45px; padding:0px 20px;" class="btn" aria-labelledby="aria-label-txt"><span id="aria-label-txt">Tell us what car you want</span></a>';
+}
+
+// Event listeners for search input and filter selections
+document.getElementById("search-item").addEventListener("input", filterAndSearchProducts);
+document.getElementById('type-select').addEventListener('change', filterAndSearchProducts);
+document.getElementById('transmission-select').addEventListener('change', filterAndSearchProducts);
+
+// Initial display of all products
+filterAndSearchProducts();
+
+</script>
+
+   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+
+    </article>
+  </main>
+
+
+
+
+
+  <!-- 
+    - #FOOTER
+  -->
+
+  {% include "footer.html" %}
+
+
+  <!-- 
+    - custom js link
+  -->
+              <script src="{{ url_for('static', filename='assets/js/script.js')}}"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <!-- 
+    - ionicon link
+  -->
+
+  {% endblock %}

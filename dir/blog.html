@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}AutoSpot-Home{% endblock %}
+
+{% block content %}
+{% include "header.html" %}
+
+
+
+<style>
+  .read-more-btn {
+  background: none;
+  border: none;
+  color: #4070f4;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding-top: 20px;
+}
+
+.read-more-btn:hover {
+  text-decoration: underline;
+}
+
+.short-text, .more-text {
+  font-size: 1rem;
+  color: #333;
+}
+
+</style>
+
+
+  <main>
+    <article>
+
+      <!--
+        - #HERO
+      -->
+      <section class="section hero" id="home">
+        <div class="container">
+
+          <div class="hero-content">
+            <h2 class="h2 hero-title" style="padding-top:10px;">Your Next Ride Awaits</h2>
+            <b>
+              <p class="hero-text">
+                Start your journey to owning the perfect car today.<br>
+                Click below to explore our collection and find your dream car!
+              </p>
+            </b>
+
+          </div>
+          <a href="/Buy" class="btn" style="width:120px; padding:10px 0px;">Buy a Car</a>
+          </div>
+      </section>
+
+
+      <!--
+        - #BLOG
+      -->
+
+
+      <section class="section blog" id="blog">
+  <div class="container">
+    <div class="featured-car" id="featured-car">
+      <div class="title-wrapper">
+        <h2 class="h2 section-title">Our Blog</h2>
+      </div>
+      <ul class="featured-car-list" >
+        <li>
+          {% for blog in blogs %}
+          <div class="blog-card">
+            <figure class="card-banner">
+              <img src="{{ url_for('static', filename='sell_imgs/blog/' + blog.images) }}" alt="image" loading="lazy" class="w-100">
+            </figure>
+            <div class="card-content">
+              <h3 class="h3 card-title">
+                <p style="cursor: default;">{{ blog.title }}</p>
+              </h3>
+              <div class="card-meta">
+                <div class="publish-date">
+                  <time datetime="2022-01-14"></time>
+                  <p class="blog-description">
+                    <span class="short-text">{{ blog.description[:200] }}...</span>
+                    <span class="more-text" style="display: none;">{{ blog.description }}</span>
+                    <button class="read-more-btn">Read More</button>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+    </article>
+  </main>
+
+<br>
+<br>
+
+
+  <!--
+    - #FOOTER
+  -->
+
+{% include "footer.html" %}
+
+
+  <!--
+    - custom js link
+  -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const readMoreButtons = document.querySelectorAll(".read-more-btn");
+
+    readMoreButtons.forEach((button) => {
+      button.addEventListener("click", function () {
+        const shortText = this.previousElementSibling.previousElementSibling; // The truncated description
+        const fullText = this.previousElementSibling; // The full description
+        const isHidden = fullText.style.display === "none";
+
+        if (isHidden) {
+          // Show full description and hide truncated text
+          fullText.style.display = "inline";
+          shortText.style.display = "none";
+          this.textContent = "Read Less";
+        } else {
+          // Show truncated text and hide full description
+          fullText.style.display = "none";
+          shortText.style.display = "inline";
+          this.textContent = "Read More";
+        }
+      });
+    });
+  });
+</script>
+
+    <script src="{{ url_for('static', filename='assets/js/script.js')}}"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+
+{% endblock %}
+

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    
+    <!--home header-->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+
+    
+    <!-- 
+        - favicon
+        <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+    
+    -->
+    
+    <!-- 
+        - custom css link
+    -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css')}}">
+<!--    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/login.css')}}">-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/form.css')}}">
+
+    
+    <!-- 
+        - google font link
+    -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Open+Sans&display=swap"
+    rel="stylesheet">
+</head>
+<body>
+    {% block content %}
+
+    {% endblock %}
+
+   
+</body>
+</html>

@@ -1,0 +1,920 @@
+{% extends "base.html" %}
+{% block title %}AutoSpot-Home{% endblock %}
+
+{% block content %}
+{% include "header.html" %}
+
+<style>
+  .read-more-btn {
+  background: none;
+  border: none;
+  color: #4070f4;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding-top: 20px;
+}
+
+.read-more-btn:hover {
+  text-decoration: underline;
+}
+
+.short-text, .more-text {
+  font-size: 1rem;
+  color: #333;
+}
+
+  /* Basic styling for the scrolling container */
+  .scroll-container {
+    overflow:hidden;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  /* Flex setup for the list */
+  .blog-list1 {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 10px;
+  }
+
+  /* Item styling */
+  .blog-list1 li {
+    width: 200px;
+    flex: 0 0 auto;
+  }
+
+.scroll-btn {
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.left-btn {
+  margin-right: 10px;
+}
+
+.right-btn {
+  margin-left: 10px;
+}
+
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 30px;
+  line-height: 40px;
+  text-align: center;
+}
+
+.left-btn {
+  left: 10px;
+}
+
+.right-btn {
+  right: 10px;
+}
+
+.sear{
+  display: flex; width: 500px;
+}
+.hero-section {
+  position: relative;
+  background: url("../static/logo/1.jpg") no-repeat center center;
+  background-size: cover;
+  height: 60vh; /* Full viewport height */
+  display: flex;
+  align-items: center; /* Vertical center */
+  justify-content: flex-start; /* Push content to the right */
+  text-align: left; /* Left-align the text content */
+  padding-left: 30px; /* Add spacing from the edge */
+  padding-right: 20px;
+}
+
+.hero-content {
+  color: white;
+  max-width: 100%; /* Limit content width */
+}
+
+.h4.hero-title {
+  margin: 0;
+  line-height: 1.5;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+  font-size: 1.80rem; /* Base font size */
+}
+
+.featured-car-link1 {
+  background-color: #0080ff;
+  color: white;
+  text-decoration: none;
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.25rem;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.featured-car-link1:hover {
+  background-color: #328ae2;
+  color: white;
+}
+
+/* Optional: Overlay for text visibility */
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Adjust transparency for visibility */
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1; /* Ensure content is above the overlay */
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .hero-section {
+    height: 50vh; /* Adjust height for medium-sized devices */
+    padding-left: 20px; /* Reduce padding */
+    padding-right: 20px;
+  }
+  .sear{
+  display: flex; width: 500px;
+}
+  .hero-content {
+    max-width: 80%; /* Increase content width */
+  }
+
+  .h4.hero-title {
+    font-size: 1.50rem; /* Adjust font size for smaller screens */
+  }
+
+  .featured-car-link1 {
+    font-size: 1.1rem; /* Adjust font size of the button */
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: 60vh; /* Further adjust height for tablets */
+    padding-left: 20px; /* Reduce padding */
+    padding-right: 15px;
+    padding-top: 20px;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .sear{
+  display: flex; width: 100%;
+}
+  .hero-content {
+    max-width: 90%; /* Increase content width */
+  }
+
+  .h4.hero-title {
+    font-size: 1.5rem; /* Smaller font size for tablets */
+    text-align: left; /* Center-align text */
+  }
+
+  .featured-car-link1 {
+    font-size: 1rem; /* Adjust button size */
+    padding: 8px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    height: 60vh; /* Further reduce height on mobile */
+    padding-left: 10px; /* Minimal padding */
+    padding-right: 10px;
+    padding-top: 10px;
+
+  }
+
+  .hero-content {
+    max-width: 100%; /* Full width for mobile */
+  }
+
+  .h4.hero-title {
+    font-size: 1.25rem; /* Even smaller font size for mobile */
+    text-align: left; /* Center-align text on mobile */
+    padding: 30px 10px;
+  }
+
+  .featured-car-link1 {
+    font-size: 0.9rem; /* Adjust button size */
+    padding: 8px 12px;
+  }
+  .sear{
+    padding-top: 5px;
+  }
+  
+}
+
+</style>
+
+  <main>
+    <article>
+
+      <!-- 
+        - #HERO
+      -->
+
+      <section class="section hero" id="home">
+        <div class="container">
+
+          <div class="hero-section">
+            <div class="hero-content">
+              <h4 class="h4 hero-title">
+                Your Destination for Quality Cars & Unmatched Service! <br>
+                From sleek sedans to powerful SUVs, find your dream ride with us. <br>
+                Explore, Experience, Excel with AUTOSPOT.
+              </h4>
+              <br>
+              
+                <form action="{{ url_for('search_cars') }}" method="get" class="sear">
+                <input type="text" name="q" placeholder="Search for a car..." style="padding: 10px; font-size: 16px; width: 100%; border: 1px solid #fff; outline: none;">
+                <button style="padding: 10px; background-color: #007bff; border: none; color: white; cursor: pointer;">
+                  Search
+                </button>
+              </form>
+              
+              
+
+              <a href="{{ url_for('buy') }}" class="featured-car-link1"
+                style="border-radius: 5px; width: 150px; font-size: 20px; display: flex; justify-content: center; align-items: center; padding: 8px 15px; color: #fff;">
+                <span>Buy a car</span>
+              </a>
+
+            </div>
+          </div>
+          
+        </div>
+
+
+      </section>
+
+
+
+     <section class="section blog" id="blog">
+        <div class="container">
+
+          <h2 class="h2 section-title">Search by category</h2>
+          <div class="scroll-container" style="margin-bottom:-40px; margin-top:-40px;" >
+            <button class="scroll-btn right-btn" id="scrollBack">›</button>
+            <ul class="blog-list1" id="scrollList" style="margin-bottom:60px;margin-top:60px;">
+
+            <li style="width:200px; ">
+              <a href="{{ url_for('buy_category', category='Sedan') }}">
+              <div class="get-start-card" style="text-align: center;">
+
+                <div class="card-icon">
+                  <img src="{{ url_for('static', filename='assets/images/catImg/sedan.png') }}" style="margin-top:-50px;" alt="" srcset="" width="180px" height="200px;">
+                </div>
+
+
+                <h3 class="card-title" style="padding-top:60px;">SEDAN</h3>
+
+              </div>
+            </a>
+            </li>
+
+            <li style="width:200px;">
+              <a href="{{ url_for('buy_category', category='Coupe') }}">
+              <div class="get-start-card" style="text-align: center;">
+
+                <div class="card-icon">
+                  <img src="{{ url_for('static', filename='assets/images/catImg/COUPE.png') }}" style="margin-top:-30px;" alt="" srcset="" width="180px" height="180px">
+                </div>
+
+
+                <h3 class="card-title" style="padding-top:60px;">COUPE</h3>
+
+              </div>
+            </a>
+            </li>
+
+            <li style="width:200px;">
+              <a href="{{ url_for('buy_category', category='Convertible') }}">
+              <div class="get-start-card" style="text-align: center;">
+
+                <div class="card-icon">
+                  <img src="{{ url_for('static', filename='assets/images/catImg/CONVERTIBLE.png') }}" style="margin-top:-40px;" alt="" srcset="" width="200px" height="200px">
+                </div>
+
+                <h3 class="card-title" style="padding-top:60px;">CONVERTIBLE</h3>
+
+              </div>
+            </a>
+            </li>
+
+            <li style="width:200px;">
+              <a href="{{ url_for('buy_category', category='Hatchback') }}">
+              <div class="get-start-card" style="text-align: center;">
+
+                <div class="card-icon">
+                  <img src="{{ url_for('static', filename='assets/images/catImg/hatchback.png') }}" style="margin-top:-20px;" alt="" srcset="" width="180px" height="180px">
+                </div>
+
+
+                <h3 class="card-title" style="padding-top:60px;">HATCHBACK</h3>
+
+              </div>
+            </a>
+            </li>
+
+            <li style="width:200px;">
+              <a href="{{ url_for('buy_category', category='Station_Wagon') }}">
+              <div class="get-start-card" style="text-align: center;">
+
+                <div class="card-icon">
+                  <img src="{{ url_for('static', filename='assets/images/catImg/STATION WAGON.png') }}" style="margin-top:-30px;" alt="" srcset="" width="200px" height="220px">
+                </div>
+
+
+                <h3 class="card-title" style="padding-top:60px;">STATION WAGON</h3>
+
+              </div>
+            </a>
+            </li>
+
+            <li style="width:200px;">
+              <a href="{{ url_for('buy_category', category='Crossover') }}">
+              <div class="get-start-card" style="text-align: center;">
+
+                <div class="card-icon">
+                  <img src="{{ url_for('static', filename='assets/images/catImg/CROSSOVER.png') }}" style="margin-top:-40px;" alt="" srcset="" width="200px" height="200px">
+                </div>
+
+
+                <h3 class="card-title" style="padding-top:60px;">CROSSOVER</h3>
+
+              </div>
+            </a>
+            </li>
+
+
+            <li style="width:200px;">
+              <a href="{{ url_for('buy_category', category='Suv') }}">
+              <div class="get-start-card" style="text-align: center;">
+
+                <div class="card-icon">
+                  <img src="{{ url_for('static', filename='assets/images/catImg/SUV.png') }}" style="margin-top:-20px;" alt="" srcset="" width="240" height="250px">
+                </div>
+
+
+                <h3 class="card-title" style="padding-top:60px;">SUV</h3>
+
+              </div>
+            </a>
+            </li>
+
+            <li style="width:200px;">
+              <a href="{{ url_for('buy_category', category='Pickup') }}">
+              <div class="get-start-card" style="text-align: center;">
+
+                 <div class="card-icon">
+                  <img src="{{ url_for('static', filename='assets/images/catImg/PICK UP.png') }}" style="margin-top:-40px;" alt="" srcset="" width="210px" height="240px">
+                </div>
+
+
+                <h3 class="card-title" style="padding-top:60px;">PICK UP</h3>
+
+              </div>
+            </a>
+            </li>
+
+            <li style="width:200px;">
+              <a href="{{ url_for('buy_category', category='Minivan') }}">
+              <div class="get-start-card" style="text-align: center;">
+
+                <div class="card-icon">
+                  <img src="{{ url_for('static', filename='assets/images/catImg/minivan.png') }}" style="margin-top:-60px;" alt="" srcset="" width="250px" height="270px">
+                </div>
+
+
+                <h3 class="card-title" style="padding-top:60px;">MINIVAN</h3>
+
+              </div>
+            </a>
+            </li>
+
+            <li style="width:200px;">
+              <a href="{{ url_for('buy_category', category='Van') }}">
+              <div class="get-start-card" style="text-align: center;">
+
+                <div class="card-icon">
+                  <img src="{{ url_for('static', filename='assets/images/catImg/van.png') }}" style="margin-top:-20px;" alt="" srcset="" width="200px" height="190px">
+                </div>
+
+
+                <h3 class="card-title" style="padding-top:60px;">VAN</h3>
+
+              </div>
+            </a>
+            </li>
+
+            <li style="width:200px;">
+              <a href="{{ url_for('buy_category', category='Mini_Bus') }}">
+              <div class="get-start-card" style="text-align: center;">
+
+                <div class="card-icon">
+                  <img src="{{ url_for('static', filename='assets/images/catImg/minibus.png') }}" alt="" srcset="" width="200px" height="120px">
+                </div>
+
+
+                <h3 class="card-title" style="padding-top:60px;">MINIBUS</h3>
+
+              </div>
+            </a>
+            </li>
+
+            <li style="width:200px;">
+              <a href="{{ url_for('buy_category', category='Bus') }}">
+              <div class="get-start-card" style="text-align: center;">
+
+                <div class="card-icon">
+                  <img src="{{ url_for('static', filename='assets/images/catImg/Bus.png') }}" alt="" srcset="" width="170px" height="130px">
+                </div>
+
+
+                <h3 class="card-title" style="padding-top:60px;">BUS</h3>
+
+              </div>
+            </a>
+            </li>
+
+            <li style="width:200px;">
+              <a href="{{ url_for('buy_category', category='Heavy_Truck') }}">
+              <div class="get-start-card" style="text-align: center;">
+
+                <div class="card-icon">
+                  <img src="{{ url_for('static', filename='assets/images/catImg/heavy truck.png') }}" style="margin-top:-20px;" alt="" srcset="" width="180px" height="180px">
+                </div>
+
+
+
+                <h3 class="card-title" style="padding-top:60px;">HEAVY TRUCK</h3>
+
+              </div>
+            </a>
+            </li>
+
+            <li style="width:200px;">
+              <a href="{{ url_for('buy_category', category='Tractor') }}">
+              <div class="get-start-card" style="text-align: center;">
+
+                <div class="card-icon">
+                  <img src="{{ url_for('static', filename='assets/images/catImg/tractor.png') }}" style="margin-top:-20px;" alt="" srcset="" width="170px" height="140px">
+                </div>
+
+
+
+                <h3 class="card-title" style="padding-top:60px;">TRACTOR</h3>
+
+              </div>
+            </a>
+            </li>
+
+
+
+          </ul>
+          <button class="scroll-btn left-btn" id="scrollForward">‹</button>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 
+        - #HOT DEALS
+      -->
+
+      
+      <section class="section blog" id="blog">
+        <div class="container">
+
+          <div class="featured-car" id="featured-car">
+             <div class="title-wrapper">
+                <h2 class="h2 section-title">Hot Deals</h2>
+
+             </div>
+        </div>
+ 
+
+<ul class="featured-car-list">
+  {% for pair in car_image_pairs %}
+<li>
+  <a href="{{ url_for('buy_details', prod_ref_no=pair.car.prod_id) }}">
+    <div class="featured-car-card">
+
+      <figure class="card-banner">
+        <img src="{{ url_for('static', filename=pair.image.url) }}" alt="Image" loading="lazy" class="w-100">
+      </figure>
+
+      <div class="card-content">
+        <div class="card-title-wrapper">
+          <h3 class="h3 card-title">
+            <a href="{{ url_for('buy_details', prod_ref_no=pair.car.prod_id) }}" style="text-transform:uppercase;">{{ pair.car.make }} <br>
+                                    <small class="footer-list-title">{{ pair.car.model }}</small></a>
+          </h3>
+          <data class="year" style="text-transform:capitalize;">{{ pair.car.yrs_mnfctr }}</data>
+        </div>
+
+        <ul class="card-list">
+          <li class="card-list-item">
+            <ion-icon name="key-outline"></ion-icon>
+            <span class="card-item-text" style="text-transform:capitalize;">{{ pair.car.car_condition }}</span>
+          </li>
+          <li class="card-list-item">
+            <ion-icon name="car-outline"></ion-icon>
+            <span class="card-item-text" style="text-transform:capitalize;">{{ pair.car.body_type }}</span>
+          </li>
+          <li class="card-list-item">
+
+            <img src="{{ url_for('static', filename='sell_imgs/car-seat.png') }}" style="width:20px; height:20px;">
+            <span class="card-item-text" style="text-transform:capitalize;">{{ pair.car.nmbr_seats }} People</span>
+          </li>
+          <li class="card-list-item">
+            <ion-icon name="flash-outline"></ion-icon>
+            <span class="card-item-text" style="text-transform:capitalize;">{{ pair.car.fuel_type }}</span>
+          </li>
+          <li class="card-list-item">
+            <ion-icon name="speedometer-outline"></ion-icon>
+            <span class="card-item-text" style="text-transform:capitalize;">{{ pair.car.mileage }} / Mileage</span>
+          </li>
+          <li class="card-list-item">
+            <ion-icon name="settings-outline"></ion-icon>
+
+            <span class="card-item-text" style="text-transform:capitalize;">{{ pair.car.transmission }}</span>
+          </li>
+        </ul>
+
+        <div class="card-price-wrapper">
+          <p class="card-price" style="text-transform:capitalize;">
+            <strong>{{ pair.car.money }}</strong> / {{ pair.car.currency }}
+          </p>
+
+
+            <a href="{{ url_for('buy_details', prod_ref_no=pair.car.prod_id) }}" class="btn" aria-labelledby="aria-label-txt">
+              <span id="aria-label-txt">Buy now</span>
+            </a>
+
+        </div>
+      </div>
+
+    </div>
+  </a>
+</li>
+{% endfor %}
+        
+          </ul>
+          <div class="featured-car" id="featured-car">
+            <div class="title-wrapper">
+           <h2 class="h2 section-title"></h2>
+
+           <a href="{{ url_for('buy') }}" class="featured-car-link" style="padding-top:10px;">
+             <span>View more</span>
+     
+             <ion-icon name="arrow-forward-outline"></ion-icon>
+           </a>
+         </div>
+       </div>
+
+        </div>
+      </section>
+
+
+
+
+      <!-- 
+        - #GET START
+      -->
+
+      <section class="section get-start " >
+        <div class="container">
+
+          <h2 class="h2 section-title">Get started with our helpful services</h2>
+
+          <ul class="get-start-list">
+          <a href="{{ url_for('reg_agent') }}">
+            <li>
+              <div class="get-start-card">
+
+                <div class="card-icon icon-1">
+                  <ion-icon name="person-add-outline"></ion-icon>
+                </div>
+
+                <h3 class="card-title">Register as an Agent</h3>
+
+                <p class="card-text">
+                  Are you interested in working with us as an independent agent? 
+                  Join our network today! Simply fill out the form with your personal 
+                  and contact information to get started.
+                </p>
+
+                <!-- <a href="#" class="card-link">Get started</a> -->
+
+              </div>
+            </li>
+          </a>
+          <a href="{{ url_for('seek') }}">
+            <li>
+              <div class="get-start-card">
+
+                <div class="card-icon icon-2">
+                  <ion-icon name="car-outline"></ion-icon>
+                </div>
+
+                <h3 class="card-title">Tell us about the car you want</h3>
+
+                <p class="card-text">
+                  Looking for a specific car but can't find it in our current inventory? 
+                  No problem! We can help. Our network of agents, in and outside Kigali, 
+                  is ready to locate your ideal car. It’s easy to reach us! Just call, 
+                  send a WhatsApp message, or fill out the form About the details of the car you want, 
+                  and our team will get in touch with you for further details. 
+                </p>
+
+              </div>
+            </li>
+          </a>
+          <a href="{{ url_for('deal') }}">
+            <li>
+              <div class="get-start-card">
+
+                <div class="card-icon icon-4">
+                  <ion-icon name="card-outline"></ion-icon>
+                </div>
+
+                <h3 class="card-title">MAKE a DEAL (Exchange/Swap a Car) </h3>
+
+                <p class="card-text">
+                  Not looking to buy or sell, but interested in exchanging your car? 
+                  We can help with that too! Just fill out our form with your personal information, 
+                  details about your vehicle, and the type of vehicle you’d like to exchange it for. 
+                  Submit your request, and we’ll handle the rest. </p>
+
+              </div>
+            </li>
+          </a>
+          </ul>
+
+        </div>
+      </section>
+
+
+
+      <!-- 
+        - #BLOG
+      -->
+
+    {% if blogs %}
+        <br>
+        <section class="section blog" id="blog">
+  <div class="container">
+    <div class="featured-car" id="featured-car">
+      <div class="title-wrapper">
+        <h2 class="h2 section-title">Our Blog</h2>
+      </div>
+      <ul class="blog-list has-scrollbar">
+        <li>
+          {% for blog in blogs %}
+          <div class="blog-card">
+            <figure class="card-banner">
+              <img src="{{ url_for('static', filename='sell_imgs/blog/' + blog.images) }}" alt="image" loading="lazy" class="w-100">
+            </figure>
+            <div class="card-content">
+              <h3 class="h3 card-title">
+                <p style="cursor: default;">{{ blog.title }}</p>
+              </h3>
+              <div class="card-meta">
+                <div class="publish-date">
+
+                  <p class="blog-description">
+                    <span class="short-text">{{ blog.description[:200] }}...</span>
+                    <span class="more-text" style="display: none;">{{ blog.description }}</span>
+                    <button class="read-more-btn">Read More</button>
+                  </p>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </li>
+      </ul>
+      <div class="featured-car" id="featured-car">
+        <div class="title-wrapper">
+          <h2 class="h2 section-title"></h2>
+          <a href="{{ url_for('blog') }}" class="featured-car-link">
+            <span>View more</span>
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    {% endif %}
+
+
+
+
+    </article>
+  </main>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const scrollContainer = document.querySelector(".scroll-container");
+    const scrollList = document.getElementById("scrollList");
+
+    // Duplicate list items to make the loop effect possible
+    const listItems = Array.from(scrollList.children);
+    listItems.forEach((item) => {
+      const clone = item.cloneNode(true);
+      scrollList.appendChild(clone);
+    });
+
+    let scrollPosition = 0;
+    let verticalScrollPosition = 0; // Variable for vertical scroll position
+    let itemWidth = 200; // Default width of an item
+    let itemHeight = 100; // Default height of an item
+    const scrollSpeed = 1;
+
+    // Function to update item width and height based on screen size
+    function updateItemDimensions() {
+      if (window.innerWidth < 600) {
+        itemWidth = 150; // Adjust for smaller screens (like mobile)
+        itemHeight = 100; // Adjust for mobile screen height
+      } else if (window.innerWidth < 1024) {
+        itemWidth = 200; // Adjust for tablet screens
+        itemHeight = 120; // Adjust for tablet screen height
+      } else {
+        itemWidth = 250; // Adjust for larger screens (like desktop)
+        itemHeight = 150; // Adjust for desktop screen height
+      }
+    }
+
+    // Variables for touch gestures
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let scrollStartX = 0;
+    let scrollStartY = 0;
+
+    // Set up the scroll effect (horizontal scrolling)
+    function startScrolling() {
+      scrollPosition += scrollSpeed; // Adjust speed by changing this increment
+      scrollList.style.transform = `translateX(-${scrollPosition}px)`;
+
+      // Reset scroll position when it reaches half of the list width
+      if (scrollPosition >= scrollList.scrollWidth / 2) {
+        scrollPosition = 0;
+      }
+
+      requestAnimationFrame(startScrolling);
+    }
+
+    // Function to handle touch start event (for both X and Y scroll)
+    function handleTouchStart(event) {
+      const touch = event.touches[0]; // Get the first touch point
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+
+      // Record the initial scroll positions
+      scrollStartX = scrollPosition;
+      scrollStartY = verticalScrollPosition;
+    }
+
+    // Function to handle touch move event (for both X and Y scroll)
+    function handleTouchMove(event) {
+      const touch = event.touches[0]; // Get the first touch point
+      const moveX = touch.clientX - touchStartX;
+      const moveY = touch.clientY - touchStartY;
+
+      // Update the scroll position for horizontal and vertical scrolling
+      scrollPosition = scrollStartX - moveX;
+      verticalScrollPosition = scrollStartY - moveY;
+
+      // Apply the new scroll positions
+      scrollList.style.transform = `translateX(-${scrollPosition}px)`;
+      scrollContainer.scrollTop = verticalScrollPosition;
+    }
+
+    // Function to handle touch end event
+    function handleTouchEnd() {
+      // You can implement any logic on touch end if needed (e.g., inertia or snapping)
+    }
+
+    // Attach touch event listeners
+    scrollContainer.addEventListener("touchstart", handleTouchStart, { passive: true });
+    scrollContainer.addEventListener("touchmove", handleTouchMove, { passive: true });
+    scrollContainer.addEventListener("touchend", handleTouchEnd, { passive: true });
+
+    // Start the infinite scrolling animation (horizontal)
+    startScrolling();
+
+    // Back and Forward Button functionality (horizontal scrolling)
+    const backButton = document.getElementById("scrollBack");
+    const forwardButton = document.getElementById("scrollForward");
+
+    backButton.addEventListener("click", function () {
+      scrollPosition -= itemWidth;
+      if (scrollPosition < 0) {
+        scrollPosition += scrollList.scrollWidth / 2; // Wrap around if at the beginning
+      }
+      scrollList.style.transform = `translateX(-${scrollPosition}px)`;
+    });
+
+    forwardButton.addEventListener("click", function () {
+      scrollPosition += itemWidth;
+      if (scrollPosition >= scrollList.scrollWidth / 2) {
+        scrollPosition = 0; // Wrap around if at the end
+      }
+      scrollList.style.transform = `translateX(-${scrollPosition}px)`;
+    });
+
+    // Screen resize listener to update item width and height dynamically
+    window.addEventListener("resize", function () {
+      updateItemDimensions();
+    });
+
+    // Initial call to set the correct item width and height based on screen size
+    updateItemDimensions();
+  });
+
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const readMoreButtons = document.querySelectorAll(".read-more-btn");
+
+    readMoreButtons.forEach((button) => {
+      button.addEventListener("click", function () {
+        const shortText = this.previousElementSibling.previousElementSibling; // The truncated description
+        const fullText = this.previousElementSibling; // The full description
+        const isHidden = fullText.style.display === "none";
+
+        if (isHidden) {
+          // Show full description and hide truncated text
+          fullText.style.display = "inline";
+          shortText.style.display = "none";
+          this.textContent = "Read Less";
+        } else {
+          // Show truncated text and hide full description
+          fullText.style.display = "none";
+          shortText.style.display = "inline";
+          this.textContent = "Read More";
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- 
+    - #FOOTER
+  -->
+
+{% include "footer.html" %}
+
+
+  <!-- 
+    - custom js link
+  -->
+
+  <script src="{{ url_for('static', filename='assets/js/script.js')}}"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+
+{% endblock %}
+
