@@ -1,0 +1,335 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Dashboard-Users{% endblock %}
+
+{% block content %}
+{% include "dashboard/aside-header.html" %}
+{% if session['user_type'] != 'user' %}
+<body class="vertical  dark  ">
+    <div class="wrapper">
+    <main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+
+              <!-- modal starts -->
+
+        
+
+              <!-- end of modal -->
+
+
+
+                {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'success' %}
+                                <div class="col-12 mb-4">
+                                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">{{ message }}</h4> <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                </div>
+
+                            {% elif category == 'error' %}
+                                <div class="col-12 mb-4">
+                                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">{{ message }}</h4> <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                </div>
+                            {% else %}
+                                <div class="col-12 mb-4">
+                                  <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">{{ message }}</h4> <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+
+
+              <h2 class="mb-2 page-title">DEALS REQUEST's</h2>
+              
+              <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-body" style="overflow-y:auto;">
+                      <!-- table -->
+                      <table class="table datatables" id="dataTable-1">
+                        <thead>
+                          <tr>
+
+                            <th>#</th>
+                            <th>Names</th>
+                            <th>Phone</th>
+                            <th>Client cars</th>
+                            <th>Cars for seek</th>
+                            
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% for deal in data %}
+                          <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ deal.names }}</td>
+                            <td>{{ deal.tel }}</td>
+                            <td>{{ deal.your_car }}</td>
+                            <td>{{ deal.seek_car }}</td>
+                            
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                                {% if session['user_type'] == 'admin' %}
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="/Dashboard/deals/del/{{ deal.id }}">Remove</a>
+                              </div>
+                                {% endif %}
+                            </td>
+                          </tr>
+                        <!-- edit modal starts -->
+
+
+              <!-- end of edit modal -->
+                        {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+         </main> <!-- main -->
+    </div> <!-- .wrapper -->
+</body>
+
+
+     <script src="{{ url_for('static', filename='js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/moment.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/simplebar.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/daterangepicker.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.stickOnScroll.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/tinycolor-min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/config.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.mask.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/select2.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.steps.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.validate.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.timepicker.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/dropzone.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/uppy.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/quill.min.js')}}"></script>
+
+    <script>
+      $('#dataTable-1').DataTable(
+      {
+        autoWidth: true,
+        "lengthMenu": [
+          [10, 20, 40, -1],
+          [10, 20, 40, "All"]
+        ]
+      });
+    </script>
+    <script>
+      $('.select2').select2(
+      {
+        theme: 'bootstrap4',
+      });
+      $('.select2-multi').select2(
+      {
+        multiple: true,
+        theme: 'bootstrap4',
+      });
+      $('.drgpicker').daterangepicker(
+      {
+        singleDatePicker: true,
+        timePicker: false,
+        showDropdowns: true,
+        locale:
+        {
+          format: 'MM/DD/YYYY'
+        }
+      });
+      $('.time-input').timepicker(
+      {
+        'scrollDefault': 'now',
+        'zindex': '9999' /* fix modal open */
+      });
+      /** date range picker */
+      if ($('.datetimes').length)
+      {
+        $('.datetimes').daterangepicker(
+        {
+          timePicker: true,
+          startDate: moment().startOf('hour'),
+          endDate: moment().startOf('hour').add(32, 'hour'),
+          locale:
+          {
+            format: 'M/DD hh:mm A'
+          }
+        });
+      }
+      var start = moment().subtract(29, 'days');
+      var end = moment();
+
+      function cb(start, end)
+      {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+      }
+      $('#reportrange').daterangepicker(
+      {
+        startDate: start,
+        endDate: end,
+        ranges:
+        {
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+      }, cb);
+      cb(start, end);
+      $('.input-placeholder').mask("00/00/0000",
+      {
+        placeholder: "__/__/____"
+      });
+      $('.input-zip').mask('00000-000',
+      {
+        placeholder: "____-___"
+      });
+      $('.input-money').mask("#.##0,00",
+      {
+        reverse: true
+      });
+      $('.input-phoneus').mask('(000) 000-0000');
+      $('.input-mixed').mask('AAA 000-S0S');
+      $('.input-ip').mask('0ZZ.0ZZ.0ZZ.0ZZ',
+      {
+        translation:
+        {
+          'Z':
+          {
+            pattern: /[0-9]/,
+            optional: true
+          }
+        },
+        placeholder: "___.___.___.___"
+      });
+      // editor
+      var editor = document.getElementById('editor');
+      if (editor)
+      {
+        var toolbarOptions = [
+          [
+          {
+            'font': []
+          }],
+          [
+          {
+            'header': [1, 2, 3, 4, 5, 6, false]
+          }],
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote', 'code-block'],
+          [
+          {
+            'header': 1
+          },
+          {
+            'header': 2
+          }],
+          [
+          {
+            'list': 'ordered'
+          },
+          {
+            'list': 'bullet'
+          }],
+          [
+          {
+            'script': 'sub'
+          },
+          {
+            'script': 'super'
+          }],
+          [
+          {
+            'indent': '-1'
+          },
+          {
+            'indent': '+1'
+          }], // outdent/indent
+          [
+          {
+            'direction': 'rtl'
+          }], // text direction
+          [
+          {
+            'color': []
+          },
+          {
+            'background': []
+          }], // dropdown with defaults from theme
+          [
+          {
+            'align': []
+          }],
+          ['clean'] // remove formatting button
+        ];
+        var quill = new Quill(editor,
+        {
+          modules:
+          {
+            toolbar: toolbarOptions
+          },
+          theme: 'snow'
+        });
+      }
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function()
+      {
+        'use strict';
+        window.addEventListener('load', function()
+        {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form)
+          {
+            form.addEventListener('submit', function(event)
+            {
+              if (form.checkValidity() === false)
+              {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+
+<script>
+        window.addEventListener("beforeunload", function () {
+        navigator.sendBeacon("{{ url_for('logout') }}");
+    });
+    </script>
+<script src="{{ url_for('static', filename='js/apps.js')}}"></script>
+
+{% endif %}
+{% endblock %}

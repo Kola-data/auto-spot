@@ -1,0 +1,617 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Dashboard-Car details{% endblock %}
+
+{% block content %}
+{% include "dashboard/aside-header.html" %}
+{% if session['user_type'] != 'user' %}
+<div class="wrapper">
+      <main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-md-12">
+              <div class="row align-items-center my-3">
+                {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'success' %}
+                                <div class="col-12 mb-4">
+                                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">{{ message }}</h4> <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                </div>
+
+                            {% elif category == 'error' %}
+                                <div class="col-12 mb-4">
+                                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">{{ message }}</h4> <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                </div>
+                            {% else %}
+                                <div class="col-12 mb-4">
+                                  <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">{{ message }}</h4> <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <div class="col">
+                  <h2 class="page-title">Item No: #{{ item['prod_id'] }}</h2><br>
+                  <a href="" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-lg btn-outline-success">Add Extra Image(s)</a>
+<!-- edit modal starts -->
+
+                  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg shadow" role="document">
+                        <!-- /.col -->
+                          <div class="modal-content shadow">
+                            <div class="modal-body card shadow">
+                              <div class="card-header">
+                                <strong class="card-title">Add Extra image(s)</strong>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                              </div>
+                              <div class="card-body">
+                                <form method="POST" action="{{ url_for('add_extra_car_imgs') }}" enctype="multipart/form-data">
+                                 <input type="hidden" name="un_id" value="{{ item['prod_id']}}"><br>
+
+                                      <label for="validationCustom3">Select Image(s)</label>
+                                      <input type="file" placeholder="image" name="files[]" accept="image/*" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" required>
+<!--                                      <div class="valid-feedback"> Looks good! </div>-->
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide image </div>
+<br>
+
+
+                                  <button type="submit" class="btn btn-outline-success" style="height:40px;">Add Image(s)</button>
+                                </form>
+                              </div> <!-- /.card-body -->
+                            </div> <!-- /.card -->
+                          </div>
+                          <!-- /.col -->
+
+
+                    </div>
+                  </div> <!-- medium modal -->
+
+
+<!-- end of edit modal -->
+                </div>
+                <div class="col-auto">
+                  <a href="{{ url_for('view_cars') }}" class="btn btn-lg btn-primary">Go back</a>
+
+                </div>
+              </div>
+
+
+
+        <div class="file-container border-top">
+                <div class="file-panel mt-4">
+
+                  <h5 class="mb-3">Product images </h5>
+
+                  <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-bottom: 20px;">
+                      {% for image in images %}
+                      
+                          <div style="display: flex; flex-direction: column; align-items: center; border: 0; background-color: transparent; width: 200px;">
+                              <img src="{{ url_for('static', filename='sell_imgs/' + image.url) }}"
+                                   alt="image"
+                                   style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px;">
+                              <div style="text-align: center; margin-top: 10px;">
+                                  <h5 style="margin-bottom: 8px; font-size: 1rem;">{{ image.status }}</h5>
+
+
+                                  <form action="{{ url_for('change_status', prod_ref_no=image.ref_no, id=image.id) }}" method="post">
+                                      <button type="submit"
+                                              style="padding: 8px 16px; border: none; background-color: #007BFF; color: white; border-radius: 4px; cursor: pointer;">
+
+                                          Set as Main
+                                      </button>
+
+                                    <a href="/Dashboard/car/delete-extra-imgs/{{image.id}}" class="btn btn-danger" style="font-size:17px; padding-top:5px">
+                                      <i class="fe fe-trash"></i>
+                                    </a>
+
+
+                                  </form>
+
+                              </div>
+                          </div>
+                      {% endfor %}
+                  </div>
+
+
+
+
+                  <hr class="my-4">
+                  <div class="row align-items-center mb-4">
+                    <div class="col">
+                      <h5><strong>Product details</strong></h5>
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Client name</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['full_name'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Client phone</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['ph_num'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Client status</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['client'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+                  </div>
+
+
+                  <!--car details-->
+
+
+
+
+                  <hr class="my-4">
+           <div class="row align-items-center mb-4">
+                    <div class="col">
+                     <h5> <strong>Car details</strong></h5>
+                    </div>
+
+                  </div>
+              <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Condition</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['car_condition'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Mileage</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['mileage'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                          </div>
+                        </div>
+                      </div> <!-- .card-body -->
+                  </div> <!-- .card -->
+
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Make</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['make'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Model</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['model'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Year of manufacture</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['yrs_mnfctr'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Country of manufacture</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['cntry_mnfctr'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Color</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['color'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Body type</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['body_type'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Number of seats</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['nmbr_seats'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Number of doors</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['nmbr_doors'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Sun roof</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['sun_roof'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Transmission</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['transmission'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Fuel type</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['fuel_type'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Drive train</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['drive_train'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Number of cylinders</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['num_cylndrs'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Money for sale</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['money'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Currency for sale</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['currency'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Insured valid till</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['insrd_till'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Technical inspection valid till</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['techn_insp_val_till'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+                    <div class="col-md-6 col-lg-4">
+                      <div class="card shadow mb-4">
+                        <div class="card-body file-list">
+                          <div class="d-flex align-items-center">
+                            <div class="circle circle-md bg-secondary">
+                              <span class="fe fe-users fe-16 text-white"></span>
+                            </div>
+                            <div class="flex-fill ml-4 fname">
+                              <strong>Car status</strong><br /><br />
+                              <h5 style="text-transform:uppercase;">{{ item['status'] }}</h5>
+<!--                              <i class="fe fe-users fe-12 ml-2 text-muted"></i>-->
+                            </div>
+                            
+                            </div>
+                          </div>
+                        </div> <!-- .card-body -->
+                      </div> <!-- .card -->
+
+
+                  </div> <!-- .row -->
+
+                </div> <!-- .file-panel -->
+
+              </div> <!-- .file-container -->
+            </div> <!-- .col -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+
+        </div>
+       </main> <!-- main -->
+    </div> <!-- .wrapper -->
+    <script>
+        window.addEventListener("beforeunload", function () {
+        navigator.sendBeacon("{{ url_for('logout') }}");
+    });
+    </script>
+    <script src="{{ url_for('static', filename='js/apps.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/moment.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/simplebar.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/daterangepicker.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.stickOnScroll.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/tinycolor-min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/config.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.mask.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/select2.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.steps.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.validate.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.timepicker.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/dropzone.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/uppy.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/quill.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/apps.js')}}"></script>
+{% endif %}
+{% endblock %}

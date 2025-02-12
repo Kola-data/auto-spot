@@ -1,0 +1,1045 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Dashboard-Car{% endblock %}
+
+{% block content %}
+{% include "dashboard/aside-header.html" %}
+
+<div class="wrapper">
+    <main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+
+              <!-- modal starts -->
+
+
+                <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg shadow" role="document">
+                        <!-- /.col -->
+                          <div class="modal-content shadow">
+                            <div class="modal-body card shadow">
+                              <div class="card-header">
+                                <strong class="card-title">Add new car</strong>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                              </div>
+                              <div class="card-body">
+                                <form method="POST" action="{{ url_for('upload_car') }}" class="needs-validation" novalidate enctype="multipart/form-data">
+                                  <div class="form-row">
+                                    <div class="col-md-6 mb-3">
+                                      <label for="validationCustom3">Product Images</label>
+                                      <input type="file" placeholder="product images" name="files[]" accept="image/*" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" multiple required>
+<!--                                      <div class="valid-feedback"> Looks good! </div>-->
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide image(s) </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="validationCustom3">Condition</label>
+                                        <select class="custom-select" name="car_condition" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                            <option selected disabled value="">Choose...</option>
+                                            <option value="new">New</option>
+                                            <option value="used">Used</option>
+                                        </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide condition. </div>
+                                    </div>
+                                  </div> <!-- /.form-row -->
+
+
+                                  <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Mileage</label>
+                                      <input type="number" placeholder="mileage" name="mileage" class="form-control" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide mileage </div>
+<!--                                      <small id="emailHelp1" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Make</label>
+                                      <input type="text" placeholder="make" name="make" class="form-control" id="validationCustom04" style="height:40px;font-size:17px;"  required>
+                                      <div class="invalid-feedback" style="font-size:15px;">Provide make </div>
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Model</label>
+                                      <input type="text" placeholder="model" name="model" class="form-control" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide model </div>
+                                    </div>
+                                  </div> <!-- /.form-row -->
+
+
+                                  <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Year of manufacture</label>
+                                      <input type="number" placeholder="country of manufacture" name="yrs_mnfctr" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" aria-describedby="emailHelp1" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide country of manufacture </div>
+<!--                                      <small id="emailHelp1" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Country of manufacture</label>
+                                      <input type="text" placeholder="country of manufacture" name="cntry_mnfctr" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide country of manufacture </div>
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Color</label>
+                                      <input type="text" placeholder="color" name="color" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide color</div>
+                                    </div>
+                                  </div> <!-- /.form-row -->
+
+
+                                  <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom3">Body Type</label>
+                                      <select class="custom-select" name="body_type" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                          <option selected disabled value="">Choose...</option>
+
+                                          <option value="Coupe">Coupe</option>
+                                          <option value="Convertible">Convertible </option>
+                                          <option value="Hatchback">Hatchback</option>
+                                          <option value="Station_Wagon">Station Wagon</option>
+                                          <option value="Crossover">Crossover</option>
+                                          <option value="Suv">Suv</option>
+                                          <option value="Pickup">Pick Up</option>
+                                          <option value="Minivan">Minivan</option>
+                                          <option value="Van">Van</option>
+                                          <option value="Mini_Bus">Mini Bus</option>
+                                          <option value="Bus">Bus</option>
+                                          <option value="Heavy_Truck">Heavy Truck</option>
+                                          <option value="Tractor">Tractor</option>
+                                      </select>
+                                    <div class="invalid-feedback" style="font-size:15px;"> Provide body </div>
+                                  </div>
+
+                                   
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Number of seats</label>
+                                      <input type="text" placeholder="number of seats" name="nmbr_seats" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide Number of seats</div>
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Number of doors</label>
+                                      <input type="text" name="nmbr_doors" placeholder="number of doors" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide number of doors</div>
+                                    </div>
+                                  </div> <!-- /.form-row -->
+
+
+                                  <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="validationCustom3">SunRoof</label>
+                                        <select class="custom-select" name="sun_roof" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                            <option selected disabled value="">Choose...</option>
+                                            <option value="yes">Yes</option>
+                                            <option value="no">No</option>
+                                        </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide condition </div>
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                        <label for="validationCustom3">Transmission</label>
+                                        <select class="custom-select" name="transmission" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                            <option selected disabled value="">Choose...</option>
+                                            <option value="automatic">Automatic</option>
+                                            <option value="manual">Manual</option>
+                                        </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide transmission</div>
+                                    </div>
+
+                                  <div class="col-md-4 mb-3">
+                                        <label for="validationCustom3">Fuel Type</label>
+                                        <select class="custom-select" name="fuel_type" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                            <option selected disabled value="">Choose...</option>
+                                            <option value="petrol">Petrol</option>
+                                            <option value="diesel">Diesel</option>
+                                            <option value="hybrid">Hybrid</option>
+                                            <option value="full electric">Full Electric</option>
+                                        </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide fuel type </div>
+                                    </div>
+                                  </div> <!-- /.form-row -->
+
+
+                                  <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">DriveTrain</label>
+                                      <select class="custom-select" name="drive_train" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                        <option selected disabled value="">Choose...</option>
+                                          <option value="fwd">FWD</option>
+                                          <option value="rwd">RWD</option>
+                                          <option value="awd">AWD</option>
+                                          <option value="4wd/4x4">4WD /4X4</option>
+
+                                      </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide drivetrain </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Number of Cylinders</label>
+                                      <select class="custom-select" name="num_cylndrs" id="validationCustom05" style="height:40px;font-size:17px;" required>
+                                        <option selected disabled value="">Choose...</option>
+                                        <option value="4">4 Cylinders</option>
+                                        <option value="6">6 Cylinders</option>
+                                        <option value="8">8 Cylinders</option>
+                                        <option value="12">12 Cylinders</option>
+                                      </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide number of cylinders </div>
+                                    </div>
+                                      <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Asking Price</label>
+                                      <input type="number" placeholder="money for sale" name="money" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide price</div>
+<!--                                      <small id="emailHelp1" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+
+                                  </div>
+
+
+                                  <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Currency</label>
+                                      <select class="custom-select" name="currency" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                        <option selected disabled value="">Choose...</option>
+                                        <option value="rwf">RWF</option>
+                                        <option value="usd">USD</option>
+                                        <option value="euro">EURO</option>
+                                        <option value="pound">POUND</option>
+                                      </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide currency for sale </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label>Insured valid till</label>
+                                        <div class="input-group">
+                                            <input type="date" name="insrd_till" style="height:40px;font-size:17px;" placeholder="dd/mm/yyyy" class="form-control">
+
+                                            </div>
+                                        </div>
+
+
+                                    <div class="col-md-4 mb-3">
+                                        <label>Technical inspection valid till</label>
+                                        <div class="input-group">
+                                            <input type="date" name="techn_insp_val_till" style="height:40px;font-size:17px;" placeholder="dd/mm/yyyy" class="form-control">
+                                            </div>
+                                        </div>
+
+                                  </div>
+                                  <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Client type</label>
+                                      <select class="custom-select" name="client" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                        <option selected disabled value="">Choose...</option>
+                                        <option value="owner">Owner</option>
+                                        <option value="broker">Broker</option>
+                                      </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide client type. </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Full name</label>
+                                      <input type="text" placeholder="full name" name="full_name" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" aria-describedby="emailHelp1" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide client name </div>
+<!--                                      <small id="emailHelp1" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+                                      <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Phone</label>
+                                      <input type="number" placeholder="phone number" name="ph_num" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" maxlength="10" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide phone number</div>
+<!--                                      <small id="emailHelp1" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+
+                                  </div>
+                                    <button type="submit" class="btn btn-outline-success">Add new car</button>
+                                </form>
+
+                              </div> <!-- /.card-body -->
+                            </div> <!-- /.card -->
+                          </div>
+                          <!-- /.col -->
+
+
+                    </div>
+                  </div> <!-- medium modal -->
+
+
+              <!-- end of modal -->
+
+
+
+              {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'success' %}
+                                <div class="col-12 mb-4">
+                                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">{{ message }}</h4> <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                </div>
+
+                            {% elif category == 'error' %}
+                                <div class="col-12 mb-4">
+                                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">{{ message }}</h4> <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                </div>
+                            {% else %}
+                                <div class="col-12 mb-4">
+                                  <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">{{ message }}</h4> <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+              <h2 class="mb-2 page-title">Cars</h2>
+              <button type="button" class="btn mb-2 btn-outline-success" style="height:40px;" data-toggle="modal" data-target=".bd-example-modal-lg">Add new car</button>
+
+              <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-body" style="overflow-y:auto;">
+                      <!-- table -->
+                      <table class="table datatables" id="dataTable-1">
+                        <thead>
+                          <tr>
+
+                            <th>#</th>
+                            <th>Prod id</th>
+                            <th>Make</th>
+                            <th>Model</th>
+                            <th>Mileage</th>
+                            <th>Condition</th>
+                            <th>Body Type</th>
+                            <th>Transmission</th>
+                            <th>Fuel Type</th>
+                            <th>Money for sale</th>
+                            <th>Status</th>
+                            {% if session['user_type'] != 'user' %}                              <th>Display</th>
+                            {% endif %}
+
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% for car in data %}
+                          <tr>
+                            <td style="text-transform:uppercase;">{{ loop.index }}</td>
+                            <td style="text-transform:uppercase;">{{ car.prod_id }}</td>
+                            <td style="text-transform:uppercase;">{{ car.make }}</td>
+                            <td style="text-transform:uppercase;">{{ car.model }}</td>
+                            <td style="text-transform:uppercase;">{{ car.mileage }}</td>
+                            <td style="text-transform:uppercase;">{{ car.car_condition }}</td>
+                            <td style="text-transform:uppercase;">{{ car.body_type }}</td>
+                            <td style="text-transform:uppercase;">{{ car.transmission }}</td>
+                            <td style="text-transform:uppercase;">{{ car.fuel_type }}</td>
+                            <td style="text-transform:uppercase;">{{ car.money }}-{{ car.currency }}</td>
+                            <td style="text-transform:uppercase;">{{ car.status }}</td>
+                            {% if session['user_type'] != 'user' %}                            <td style="text-transform:uppercase;">
+
+                                {% if car.display == 1 %}
+                                <a href="/Dashboard/car/display/not/{{ car.id }}" class="btn-success" style="padding: 6px 10px; text-decoration: none; border-radius: 5px; color: white; font-size: 15px;">Yes</a>
+                                {% else %}
+                                <a href="/Dashboard/car/display/yes/{{ car.id }}" class="btn-danger" style="padding: 6px 10px; text-decoration: none; border-radius: 5px; color: white; font-size: 15px;">Not</a>
+                                {% endif %}
+                              
+                            </td>
+                            {% endif %}
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="{{ url_for('car_details', car_id=car.prod_id) }}">View all details</a>
+                                  <a class="dropdown-item" href="/Dashboard/car/update/{{ car.id }}" data-toggle="modal" data-target=".bd-example-modal-lg-edit{{ car.id }}">Edit</a>
+
+                              {% if session['user_type'] != 'user' %}
+                                {% if car.status=='not approved' %}
+                                <form method="POST" action="{{ url_for('approve') }}">
+                                  <input type="hidden" name="id" value="{{ car.id }}">
+                                  <button class="dropdown-item">Approve</button>
+
+                                </form>
+                                {% else  %}
+                                <form method="POST" action="{{ url_for('un_approve') }}">
+                                  <input type="hidden" name="id" value="{{ car.id }}">
+                                  <button class="dropdown-item">Un Approve</button>
+                                </form>
+                                {% endif %}
+                                <a class="dropdown-item" href="/Dashboard/car/del/{{ car.id }}">Remove</a>
+                              {% endif %}
+                              </div>
+                            </td>
+                          </tr>
+              <!-- edit modal starts -->
+
+
+                  <div class="modal fade bd-example-modal-lg-edit{{ car.id }}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg shadow" role="document">
+                        <!-- /.col -->
+                          <div class="modal-content shadow">
+                            <div class="modal-body card shadow">
+                              <div class="card-header">
+                                <strong class="card-title">Edit car details</strong>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                              </div>
+                              <div class="card-body">
+                                <form method="POST" action="{{ url_for('update_car') }}" enctype="multipart/form-data">
+                                  <input type="hidden" name="car_id" value="{{ car.id }}">
+                                  <div class="form-row">
+
+                                    <div class="col-md-12 mb-3">
+                                        <label for="validationCustom04">Condition</label>
+                                        <select class="custom-select" name="car_condition" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                            <option selected value="{{ car.car_condition }}">{{ car.car_condition }}</option>
+                                          {% if car.car_condition == 'new' %}
+
+                                          {% else %}
+                                          <option value="new">New</option>
+                                          {% endif %}
+                                          {% if car.car_condition == 'used' %}
+
+                                          {% else %}
+                                          <option value="used">Used</option>
+                                          {% endif %}
+                                        </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide condition. </div>
+                                    </div>
+                                  </div> <!-- /.form-row -->
+
+
+                                  <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Mileage</label>
+                                      <input type="number" value="{{ car.mileage }}" placeholder="mileage" name="mileage" class="form-control" style="height:40px;font-size:17px;" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide mileage </div>
+<!--                                      <small id="emailHelp1" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Make</label>
+                                      <input type="text" value="{{ car.make }}" placeholder="make" name="make" class="form-control" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                      <div class="invalid-feedback" style="font-size:15px;">Provide make </div>
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Model</label>
+                                      <input type="text" value="{{ car.model }}" placeholder="model" name="model" class="form-control" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide model </div>
+                                    </div>
+                                  </div> <!-- /.form-row -->
+
+
+                                  <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Year of manufacture</label>
+                                      <input type="number" value="{{ car.yrs_mnfctr }}" placeholder="country of manufacture" name="yrs_mnfctr" class="form-control" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide country of manufacture </div>
+<!--                                      <small id="emailHelp1" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Country of manufacture</label>
+                                      <input type="text" value="{{ car.cntry_mnfctr }}" placeholder="country of manufacture" name="cntry_mnfctr" class="form-control" id="validationCustom4" style="height:40px;font-size:17px;" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide country of manufacture </div>
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Color</label>
+                                      <input type="text" value="{{ car.color }}" placeholder="color" name="color" class="form-control" id="validationCustom4" style="height:40px;font-size:17px;" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide color</div>
+                                    </div>
+                                  </div> <!-- /.form-row -->
+
+
+                                  <div class="form-row">
+                                     <div class="col-md-4 mb-3">
+                                        <label for="validationCustom3">Body type</label>
+                                        <select class="custom-select" name="body_type" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                            <option value="{{ car.body_type }}">{{ car.body_type }} default</option>
+                                            <option value="Sedan">Sedan</option>
+                                            <option value="Coupe">Coupe</option>
+                                            <option value="Convertible">Convertible </option>
+                                            <option value="Hatchback">Hatchback</option>
+                                            <option value="Station_Wagon">Station Wagon</option>
+                                            <option value="Crossover">Crossover</option>
+                                            <option value="Suv">Suv</option>
+                                            <option value="Pickup">Pick Up</option>
+                                            <option value="Minivan">Minivan</option>
+                                            <option value="Van">Van</option>
+                                            <option value="Mini_Bus">Mini Bus</option>
+                                            <option value="Bus">Bus</option>
+                                            <option value="Heavy_Truck">Heavy Truck</option>
+                                            <option value="Tractor">Tractor</option>
+                                        </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide condition </div>
+
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Number of seats</label>
+                                      <input type="text" value="{{ car.nmbr_seats }}" placeholder="number of seats" name="nmbr_seats" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide Number of seats</div>
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Number of doors</label>
+                                      <input type="text" value="{{ car.nmbr_doors }}" name="nmbr_doors" placeholder="number of doors" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide number of doors</div>
+                                    </div>
+                                  </div> <!-- /.form-row -->
+
+
+                                  <div class="form-row">
+                                      <div class="col-md-4 mb-3">
+                                        <label for="validationCustom3">SunRoof</label>
+                                        <select class="custom-select" name="sun_roof" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                            <option selected value="{{ car.sun_roof }}">{{ car.sun_roof }}</option>
+                                          {% if car.sun_roof == 'yes' %}
+
+                                          {% else %}
+                                          <option value="yes">Yes</option>
+                                          {% endif %}
+                                          {% if car.sun_roof == 'no' %}
+
+                                          {% else %}
+                                          <option value="no">No</option>
+                                          {% endif %}
+                                        </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide condition </div>
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                        <label for="validationCustom3">Transmission</label>
+                                        <select class="custom-select"  name="transmission" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                            <option selected value="{{ car.transmission }}">{{ car.transmission }}</option>
+                                          {% if car.transmission == 'automatic' %}
+
+                                          {% else %}
+                                          <option value="automatic">Automatic</option>
+                                          {% endif %}
+                                          {% if car.transmission == 'manual' %}
+
+                                          {% else %}
+                                          <option value="manual">Manual</option>
+                                          {% endif %}
+                                        </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide transmission</div>
+                                    </div>
+
+                                  <div class="col-md-4 mb-3">
+                                        <label for="validationCustom3">Fuel Type</label>
+                                        <select class="custom-select" name="fuel_type" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                            <option selected value="{{ car.fuel_type }}">{{ car.fuel_type }}</option>
+                                          {% if car.fuel_type == 'petrol' %}
+                                          {% else %}
+                                          <option value="petrol">Petrol</option>
+                                          {% endif %}
+                                          {% if car.fuel_type == 'diesel' %}
+                                          {% else %}
+                                          <option value="diesel">Diesel</option>
+                                          {% endif %}
+                                          {% if car.fuel_type == 'hybrid' %}
+                                          {% else %}
+                                          <option value="hybrid">Hybrid</option>
+                                          {% endif %}
+                                          {% if car.fuel_type == 'full electric' %}
+                                          {% else %}
+                                          <option value="full electric">Full Electric</option>
+                                          {% endif %}
+                                        </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide fuel type </div>
+                                    </div>
+                                  </div> <!-- /.form-row -->
+
+
+                                  <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">DriveTrain</label>
+                                      <select class="custom-select" name="drive_train" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                        <option selected value="{{ car.drive_train }}">{{ car.drive_train }} (default)</option>
+                                        <option value="fwd">FWD</option>
+                                        <option value="rwd">RWD</option>
+                                        <option value="awd">AWD</option>
+                                        <option value="4wd/4x4">4WD /4X4</option>
+
+                                      </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide drivetrain </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Number of Cylinders</label>
+                                      <select class="custom-select" name="num_cylndrs" id="validationCustom05" style="height:40px;font-size:17px;" required>
+                                        <option selected value="{{ car.num_cylndrs }}">{{ car.num_cylndrs }} Cylinders</option>
+                                        {% if car.num_cylndrs == '4' %}
+                                        {% else %}
+                                        <option value="4">4 Cylinders</option>
+                                        {% endif %}
+                                        {% if car.num_cylndrs == '6' %}
+                                        {% else %}
+                                        <option value="6">6 Cylinders</option>
+                                        {% endif %}
+                                        {% if car.num_cylndrs == '8' %}
+                                        {% else %}
+                                        <option value="8">8 Cylinders</option>
+                                        {% endif %}
+                                        {% if car.num_cylndrs == '12' %}
+                                        {% else %}
+                                        <option value="12">12 Cylinders</option>
+                                        {% endif %}
+                                      </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide number of cylinders </div>
+                                    </div>
+                                      <div class="col-md-4 mb-3">
+                                      <label for="validationCustom3">Money for sale</label>
+                                      <input type="number" value="{{ car.money }}" placeholder="money for sale" name="money" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide money for sale</div>
+<!--                                      <small id="emailHelp1" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+
+                                  </div>
+
+
+                                  <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Currency for sale</label>
+                                      <select class="custom-select" name="currency" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                        <option selected value="{{ car.currency }}">{{ car.currency }}</option>
+                                        {% if car.currency == 'rwf' %}
+                                        {% else %}
+                                        <option value="rwf">RWF</option>
+                                        {% endif %}
+                                        {% if car.currency == 'usd' %}
+                                        {% else %}
+                                        <option value="usd">USD</option>
+                                        {% endif %}
+                                        {% if car.currency == 'euro' %}
+                                        {% else %}
+                                        <option value="euro">EURO</option>
+                                        {% endif %}
+                                        {% if car.currency == 'pound' %}
+                                        {% else %}
+                                        <option value="pound">POUND</option>
+                                        {% endif %}
+                                      </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide currency for sale </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="date-input1">Insured valid till</label>
+                                        <div class="input-group">
+                                            <input type="date" value="{{ car.insrd_till }}" name="insrd_till" style="height:40px;font-size:17px;" placeholder="dd/mm/yyyy" class="form-control">
+                                            </div>
+                                            </div>
+
+
+
+                                    <div class="col-md-4 mb-3">
+                                        <label for="date-input1">Technical inspection valid till</label>
+                                        <div class="input-group">
+                                            <input type="date" value="{{ car.techn_insp_val_till }}" name="techn_insp_val_till" style="height:40px;font-size:17px;" placeholder="dd/mm/yyyy" class="form-control">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                  <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Client type</label>
+                                      <select class="custom-select" name="client" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                        <option selected value="{{ car.client }}">{{ car.client }}</option>
+                                        {% if car.client == 'owner' %}
+                                        {% else %}
+                                        <option value="owner">Owner</option>
+                                        {% endif %}
+                                        {% if car.client == 'broker' %}
+                                        {% else %}
+                                        <option value="broker">Broker</option>
+                                        {% endif %}
+                                      </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide client type. </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Full name</label>
+                                      <input type="text" value="{{ car.full_name }}" placeholder="full name" name="full_name" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" aria-describedby="emailHelp1" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide client name </div>
+<!--                                      <small id="emailHelp1" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+                                      <div class="col-md-4 mb-3">
+                                      <label for="validationCustom04">Phone</label>
+                                      <input type="number" value="{{ car.ph_num }}" placeholder="phone number" name="ph_num" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" maxlength="10" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Provide phone number </div>
+<!--                                      <small id="emailHelp1" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+
+                                  </div>
+                                    <button type="submit" class="btn btn-outline-success">Update car details</button>
+                                </form>
+                              </div> <!-- /.card-body -->
+                            </div> <!-- /.card -->
+                          </div>
+                          <!-- /.col -->
+
+
+                    </div>
+                  </div> <!-- medium modal -->
+
+
+              <!-- end of edit modal -->
+                        {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+        <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="list-group list-group-flush my-n3">
+                  <div class="list-group-item bg-transparent">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="fe fe-box fe-24"></span>
+                      </div>
+                      <div class="col">
+                        <small><strong>Package has uploaded successfull</strong></small>
+                        <div class="my-0 text-muted small">Package is zipped and uploaded</div>
+                        <small class="badge badge-pill badge-light text-muted">1m ago</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item bg-transparent">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="fe fe-download fe-24"></span>
+                      </div>
+                      <div class="col">
+                        <small><strong>Widgets are updated successfull</strong></small>
+                        <div class="my-0 text-muted small">Just create new layout Index, form, table</div>
+                        <small class="badge badge-pill badge-light text-muted">2m ago</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item bg-transparent">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="fe fe-inbox fe-24"></span>
+                      </div>
+                      <div class="col">
+                        <small><strong>Notifications have been sent</strong></small>
+                        <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo</div>
+                        <small class="badge badge-pill badge-light text-muted">30m ago</small>
+                      </div>
+                    </div> <!-- / .row -->
+                  </div>
+                  <div class="list-group-item bg-transparent">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="fe fe-link fe-24"></span>
+                      </div>
+                      <div class="col">
+                        <small><strong>Link was attached to menu</strong></small>
+                        <div class="my-0 text-muted small">New layout has been attached to the menu</div>
+                        <small class="badge badge-pill badge-light text-muted">1h ago</small>
+                      </div>
+                    </div>
+                  </div> <!-- / .row -->
+                </div> <!-- / .list-group -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear All</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="defaultModalLabel">Shortcuts</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body px-5">
+                <div class="row align-items-center">
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-success justify-content-center">
+                      <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Control area</p>
+                  </div>
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-activity fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Activity</p>
+                  </div>
+                </div>
+                <div class="row align-items-center">
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Droplet</p>
+                  </div>
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Upload</p>
+                  </div>
+                </div>
+                <div class="row align-items-center">
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-cars fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Users</p>
+                  </div>
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-settings fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Settings</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main> <!-- main -->
+    </div> <!-- .wrapper -->
+    <script>
+        window.addEventListener("beforeunload", function () {
+        navigator.sendBeacon("{{ url_for('logout') }}");
+    });
+    </script>
+    <script src="{{ url_for('static', filename='js/apps.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/moment.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/simplebar.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/daterangepicker.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.stickOnScroll.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/tinycolor-min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/config.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.mask.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/select2.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.steps.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.validate.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.timepicker.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/dropzone.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/uppy.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/quill.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/apps.js')}}"></script>
+
+    <script>
+      $('#dataTable-1').DataTable(
+      {
+        autoWidth: true,
+        "lengthMenu": [
+          [10, 20, 40, -1],
+          [10, 20, 40, "All"]
+        ]
+      });
+    </script>
+    <script>
+      $('.select2').select2(
+      {
+        theme: 'bootstrap4',
+      });
+      $('.select2-multi').select2(
+      {
+        multiple: true,
+        theme: 'bootstrap4',
+      });
+      $('.drgpicker').daterangepicker(
+      {
+        singleDatePicker: true,
+        timePicker: false,
+        showDropdowns: true,
+        locale:
+        {
+          format: 'MM/DD/YYYY'
+        }
+      });
+      $('.time-input').timepicker(
+      {
+        'scrollDefault': 'now',
+        'zindex': '9999' /* fix modal open */
+      });
+      /** date range picker */
+      if ($('.datetimes').length)
+      {
+        $('.datetimes').daterangepicker(
+        {
+          timePicker: true,
+          startDate: moment().startOf('hour'),
+          endDate: moment().startOf('hour').add(32, 'hour'),
+          locale:
+          {
+            format: 'M/DD hh:mm A'
+          }
+        });
+      }
+      var start = moment().subtract(29, 'days');
+      var end = moment();
+
+      function cb(start, end)
+      {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+      }
+      $('#reportrange').daterangepicker(
+      {
+        startDate: start,
+        endDate: end,
+        ranges:
+        {
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+      }, cb);
+      cb(start, end);
+      $('.input-placeholder').mask("00/00/0000",
+      {
+        placeholder: "__/__/____"
+      });
+      $('.input-zip').mask('00000-000',
+      {
+        placeholder: "____-___"
+      });
+      $('.input-money').mask("#.##0,00",
+      {
+        reverse: true
+      });
+      $('.input-phoneus').mask('(000) 000-0000');
+      $('.input-mixed').mask('AAA 000-S0S');
+      $('.input-ip').mask('0ZZ.0ZZ.0ZZ.0ZZ',
+      {
+        translation:
+        {
+          'Z':
+          {
+            pattern: /[0-9]/,
+            optional: true
+          }
+        },
+        placeholder: "___.___.___.___"
+      });
+      // editor
+      var editor = document.getElementById('editor');
+      if (editor)
+      {
+        var toolbarOptions = [
+          [
+          {
+            'font': []
+          }],
+          [
+          {
+            'header': [1, 2, 3, 4, 5, 6, false]
+          }],
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote', 'code-block'],
+          [
+          {
+            'header': 1
+          },
+          {
+            'header': 2
+          }],
+          [
+          {
+            'list': 'ordered'
+          },
+          {
+            'list': 'bullet'
+          }],
+          [
+          {
+            'script': 'sub'
+          },
+          {
+            'script': 'super'
+          }],
+          [
+          {
+            'indent': '-1'
+          },
+          {
+            'indent': '+1'
+          }], // outdent/indent
+          [
+          {
+            'direction': 'rtl'
+          }], // text direction
+          [
+          {
+            'color': []
+          },
+          {
+            'background': []
+          }], // dropdown with defaults from theme
+          [
+          {
+            'align': []
+          }],
+          ['clean'] // remove formatting button
+        ];
+        var quill = new Quill(editor,
+        {
+          modules:
+          {
+            toolbar: toolbarOptions
+          },
+          theme: 'snow'
+        });
+      }
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function()
+      {
+        'use strict';
+        window.addEventListener('load', function()
+        {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form)
+          {
+            form.addEventListener('submit', function(event)
+            {
+              if (form.checkValidity() === false)
+              {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+
+
+{% endblock %}

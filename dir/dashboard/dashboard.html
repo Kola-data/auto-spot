@@ -1,0 +1,165 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Dashboard-Home{% endblock %}
+
+{% block content %}
+{% include "dashboard/aside-header.html" %}
+
+    <div class="wrapper">
+      <main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+                {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'success' %}
+                                <div class="col-12 mb-4">
+                                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">{{ message }}</h4> <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                </div>
+
+                            {% elif category == 'error' %}
+                                <div class="col-12 mb-4">
+                                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">{{ message }}</h4> <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                </div>
+                            {% else %}
+                                <div class="col-12 mb-4">
+                                  <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">{{ message }}</h4> <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+              <div class="row align-items-center mb-2">
+                <div class="col">
+
+                  <h2 class="h5 page-title">Welcome!</h2>
+                </div>
+                <div class="col-auto">
+                  <form class="form-inline">
+                    <div class="form-group d-none d-lg-inline">
+                      <label for="reportrange" class="sr-only">Date Ranges</label>
+                      <div id="reportrange" class="px-2 py-2 text-muted">
+                        <span class="small"></span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <button type="button" class="btn btn-sm"><span class="fe fe-refresh-ccw fe-16 text-muted"></span></button>
+                      <button type="button" class="btn btn-sm mr-2"><span class="fe fe-filter fe-16 text-muted"></span></button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="row">
+
+                <div class="col-md-8">
+                  <div class="row">
+                    <div class="col-md-4 mb-4">
+                      <div class="card shadow">
+                        <div class="card-body">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <h4 class="mb-0">15%</h4>
+                              <p class="small text-muted mb-0">Cpu Usage</p>
+                            </div>
+                            <div class="col-5">
+                              <div id="gauge1" class="gauge-container"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                      <div class="card shadow">
+                        <div class="card-body">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <h4 class="mb-0">65%</h4>
+                              <p class="small text-muted mb-0">Ram Usage</p>
+                            </div>
+                            <div class="col-5">
+                              <div id="gauge2" class="gauge-container"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                      <div class="card shadow">
+                        <div class="card-body">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <p class="small text-muted mb-0">Network</p>
+                              <h4 class="mb-0">20%</h4>
+                            </div>
+                            <div class="col-5">
+                              <div id="gauge3" class="gauge-container"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div> <!-- end section -->
+
+                </div> <!-- /. col -->
+              </div> <!-- end section -->
+            </div>
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+        </main> <!-- main -->
+    </div> <!-- .wrapper -->
+
+    <script>
+        window.addEventListener("beforeunload", function () {
+        navigator.sendBeacon("{{ url_for('logout') }}");
+    });
+    </script>
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/simplebar.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/daterangepicker.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.stickOnScroll.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tinycolor-min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/topojson.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/datamaps.all.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/datamaps-zoomto.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/datamaps.custom.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/Chart.min.js') }}"></script>
+    <script>
+      /* defind global options */
+      Chart.defaults.global.defaultFontFamily = base.defaultFontFamily;
+      Chart.defaults.global.defaultFontColor = colors.mutedColor;
+    </script>
+    <script src="{{ url_for('static', filename='js/gauge.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.sparkline.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/apexcharts.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/apexcharts.custom.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.mask.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/select2.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.steps.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.validate.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.timepicker.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dropzone.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/uppy.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/quill.min.js') }}"></script>
+    
+    <script src="{{ url_for('static', filename='js/apps.js')}}"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+{% endblock %}

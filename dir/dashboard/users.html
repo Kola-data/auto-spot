@@ -1,0 +1,658 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Dashboard-Users{% endblock %}
+
+{% block content %}
+{% include "dashboard/aside-header.html" %}
+{% if session['user_type'] == 'admin' %}
+<body class="vertical  dark  ">
+    <div class="wrapper">
+    <main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+
+              <!-- modal starts -->
+
+                  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg shadow" role="document">
+                        <!-- /.col -->
+                          <div class="modal-content shadow">
+                            <div class="modal-body card shadow">
+                              <div class="card-header">
+                                <strong class="card-title">Add new user</strong>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                              </div>
+                              <div class="card-body">
+                                <form method="POST" action="{{ url_for('add_user') }}" class="needs-validation" novalidate>
+                                  <div class="form-row">
+                                    <div class="col-md-6 mb-3">
+                                      <label for="validationCustom3">Full name</label>
+                                      <input type="text" placeholder="full name" name="fullname" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" required>
+<!--                                      <div class="valid-feedback"> Looks good! </div>-->
+                                      <div class="invalid-feedback" style="font-size:15px;"> Please provide full name </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                      <label for="validationCustom4">National id</label>
+                                      <input type="number" placeholder="national id" name="nid" class="form-control" id="validationCustom4" style="height:40px;font-size:17px;" maxlength="16" required>
+<!--                                      <div class="valid-feedback"> Looks good! </div>-->
+                                      <div class="invalid-feedback" style="font-size:15px;"> Please provide national id</div>
+                                    </div>
+                                  </div> <!-- /.form-row -->
+                                  <div class="form-row">
+                                    <div class="col-md-8 mb-3">
+                                      <label for="exampleInputEmail2">Email address</label>
+                                      <input type="email" placeholder="email address" name="username" class="form-control" id="exampleInputEmail2" style="height:40px;font-size:17px;" aria-describedby="emailHelp1" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Please use a valid email </div>
+<!--                                      <small id="emailHelp1" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                      <label for="custom-phone">Phone number</label>
+                                      <input type="number" placeholder="phone number" name="phonenum" class="form-control" id="custom-phone" style="height:40px;font-size:17px;" maxlength="10" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Please provide valid phone </div>
+                                    </div>
+                                  </div> <!-- /.form-row -->
+
+                                  <div class="form-row">
+                                    <div class="col-md-12 mb-3">
+
+                                      <label for="validationCustom3">Password</label>
+                                      <input type="password" name="password" placeholder="password" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" required>
+<!--                                      <div class="valid-feedback"> Looks good! </div>-->
+                                      <div class="invalid-feedback" style="font-size:15px;"> Please provide password </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="form-row">
+                                    <div class="col-md-6 mb-3">
+                                      <label for="validationCustom04">User Type</label>
+                                      <select class="custom-select" name="utype" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                        <option selected disabled value="">Choose...</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="assistant">Assistant</option>
+                                        <option value="user">User</option>
+                                      </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Please provide valid Type. </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                      <label for="validationCustom04">User Status</label>
+                                      <select class="custom-select" name="status" id="validationCustom05" style="height:40px;font-size:17px;" required>
+                                        <option selected disabled value="">Choose...</option>
+                                        <option value="1">Active</option>
+                                        <option value="0">Not Active</option>
+                                      </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Please provide valid Status. </div>
+                                    </div>
+                                  </div>
+<br>
+                                  <button class="btn mb-2 btn-outline-success" type="submit" style="height:40px;">Add new user</button>
+                                </form>
+                              </div> <!-- /.card-body -->
+                            </div> <!-- /.card -->
+                          </div>
+                          <!-- /.col -->
+
+
+                    </div>
+                  </div> <!-- medium modal -->
+
+
+              <!-- end of modal -->
+
+
+
+                {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'success' %}
+                                <div class="col-12 mb-4">
+                                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">{{ message }}</h4> <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                </div>
+
+                            {% elif category == 'error' %}
+                                <div class="col-12 mb-4">
+                                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">{{ message }}</h4> <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                </div>
+                            {% else %}
+                                <div class="col-12 mb-4">
+                                  <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">{{ message }}</h4> <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+
+
+              <h2 class="mb-2 page-title">Users</h2>
+              <button type="button" class="btn mb-2 btn-outline-success" style="height:40px;" data-toggle="modal" data-target=".bd-example-modal-lg">Add new user</button>
+
+              <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-body" style="overflow-y:auto;">
+                      <!-- table -->
+                      <table class="table datatables" id="dataTable-1">
+                        <thead>
+                          <tr>
+
+                            <th>#</th>
+                            <th>Names</th>
+                            <th>National id</th>
+                            <th>Phone</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>User Type</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in data %}
+                          <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ user.names }}</td>
+                            <td>{{ user.nid }}</td>
+                            <td>{{ user.phone }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.password }}</td>
+                            <td>{{ user.utype }}</td>
+                            <td>
+                              {% if user.status == '0' %}
+                              Not Active
+                              {% elif user.status == '1' %}
+                              Active
+                              {% else %}
+
+                              {% endif %}
+                            </td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="/Dashboard/users/update/{{ user.id }}" data-toggle="modal" data-target=".bd-example-modal-lg-edit{{ user.id }}">Edit</a>
+                                <a class="dropdown-item" href="/Dashboard/users/del/{{ user.id }}">Remove</a>
+                              </div>
+                            </td>
+                          </tr>
+                        <!-- edit modal starts -->
+
+                  <div class="modal fade bd-example-modal-lg-edit{{ user.id }}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg shadow" role="document">
+                        <!-- /.col -->
+                          <div class="modal-content shadow">
+                            <div class="modal-body card shadow">
+                              <div class="card-header">
+                                <strong class="card-title">Edit user details</strong>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                              </div>
+                              <div class="card-body">
+                                <form method="POST" action="{{ url_for('update_user') }}" class="needs-validation" novalidate>
+                                 <input type="hidden" name="id" value="{{ user.id }}">
+                                  <div class="form-row">
+                                    <div class="col-md-6 mb-3">
+                                      <label for="validationCustom3">Full name</label>
+                                      <input value="{{ user.names }}" type="text" placeholder="full name" name="fullname" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" required>
+<!--                                      <div class="valid-feedback"> Looks good! </div>-->
+                                      <div class="invalid-feedback" style="font-size:15px;"> Please provide full name </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                      <label for="validationCustom4">National id</label>
+                                      <input value="{{ user.nid }}" type="number" placeholder="national id" name="nid" class="form-control" id="validationCustom4" style="height:40px;font-size:17px;" maxlength="16" required>
+<!--                                      <div class="valid-feedback"> Looks good! </div>-->
+                                      <div class="invalid-feedback" style="font-size:15px;"> Please provide national id</div>
+                                    </div>
+                                  </div> <!-- /.form-row -->
+                                  <div class="form-row">
+                                    <div class="col-md-8 mb-3">
+                                      <label for="exampleInputEmail2">Email address</label>
+                                      <input value="{{ user.username }}" type="email" placeholder="email address" name="username" class="form-control" id="exampleInputEmail2" style="height:40px;font-size:17px;" aria-describedby="emailHelp1" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Please use a valid email </div>
+<!--                                      <small id="emailHelp1" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                      <label for="custom-phone">Phone number</label>
+                                      <input value="{{ user.phone }}" type="number" placeholder="phone number" name="phonenum" class="form-control" id="custom-phone" style="height:40px;font-size:17px;" maxlength="10" required>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Please provide valid phone </div>
+                                    </div>
+                                  </div> <!-- /.form-row -->
+
+                                  <div class="form-row">
+                                    <div class="col-md-12 mb-3">
+
+                                      <label for="validationCustom3">Password</label>
+                                      <input value="{{ user.password }}" type="text" name="password" placeholder="password" class="form-control" id="validationCustom3" style="height:40px;font-size:17px;" required>
+<!--                                      <div class="valid-feedback"> Looks good! </div>-->
+                                      <div class="invalid-feedback" style="font-size:15px;"> Please provide password </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="form-row">
+                                    <div class="col-md-6 mb-3">
+                                      <label for="validationCustom04">User Type</label>
+                                      <select class="custom-select" name="utype" id="validationCustom04" style="height:40px;font-size:17px;" required>
+                                        <option selected value="{{user.utype}}">{{user.utype}} as (default)</option>
+                                        {% if user.utype == 'admin' %}
+                                        <option value="user">User</option>
+                                        {% elif user.utype == 'user' %}
+                                        <option value="admin">Admin</option>
+                                        {% elif user.utype == 'assistant' %}
+                                        <option value="assistant">Assistant</option>
+                                        {% else %}
+                                        Undefined
+                                        {% endif %}
+
+
+                                      </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Please provide valid Type. </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                      <label for="validationCustom04">User Status</label>
+                                      <select class="custom-select" name="status" id="validationCustom05" style="height:40px;font-size:17px;" required>
+                                        <option selected value="{{user.status}}">
+                                          {% if user.status == '0' %}
+                                          Not Active
+                                          {% elif user.status == '1' %}
+                                          Active
+                                          {% else %}
+  
+                                          {% endif %}</option>
+
+                                        {% if user.status == '1' %}
+                                        <option value="0">Not Active</option>
+                                        {% elif user.status == '0' %}
+                                        <option value="1">Active</option>
+                                        {% else %}
+
+                                        {% endif %}
+                                        </select>
+                                      <div class="invalid-feedback" style="font-size:15px;"> Please provide valid Status. </div>
+                                    </div>
+                                  </div>
+<br>
+                                  <button type="submit" class="btn mb-2 btn-outline-success" style="height:40px;">Edit user details</button>
+                                </form>
+                              </div> <!-- /.card-body -->
+                            </div> <!-- /.card -->
+                          </div>
+                          <!-- /.col -->
+
+
+                    </div>
+                  </div> <!-- medium modal -->
+
+
+              <!-- end of edit modal -->
+                        {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+        <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="list-group list-group-flush my-n3">
+                  <div class="list-group-item bg-transparent">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="fe fe-box fe-24"></span>
+                      </div>
+                      <div class="col">
+                        <small><strong>Package has uploaded successfull</strong></small>
+                        <div class="my-0 text-muted small">Package is zipped and uploaded</div>
+                        <small class="badge badge-pill badge-light text-muted">1m ago</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item bg-transparent">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="fe fe-download fe-24"></span>
+                      </div>
+                      <div class="col">
+                        <small><strong>Widgets are updated successfull</strong></small>
+                        <div class="my-0 text-muted small">Just create new layout Index, form, table</div>
+                        <small class="badge badge-pill badge-light text-muted">2m ago</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item bg-transparent">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="fe fe-inbox fe-24"></span>
+                      </div>
+                      <div class="col">
+                        <small><strong>Notifications have been sent</strong></small>
+                        <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo</div>
+                        <small class="badge badge-pill badge-light text-muted">30m ago</small>
+                      </div>
+                    </div> <!-- / .row -->
+                  </div>
+                  <div class="list-group-item bg-transparent">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="fe fe-link fe-24"></span>
+                      </div>
+                      <div class="col">
+                        <small><strong>Link was attached to menu</strong></small>
+                        <div class="my-0 text-muted small">New layout has been attached to the menu</div>
+                        <small class="badge badge-pill badge-light text-muted">1h ago</small>
+                      </div>
+                    </div>
+                  </div> <!-- / .row -->
+                </div> <!-- / .list-group -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear All</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="defaultModalLabel">Shortcuts</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body px-5">
+                <div class="row align-items-center">
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-success justify-content-center">
+                      <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Control area</p>
+                  </div>
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-activity fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Activity</p>
+                  </div>
+                </div>
+                <div class="row align-items-center">
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Droplet</p>
+                  </div>
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Upload</p>
+                  </div>
+                </div>
+                <div class="row align-items-center">
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-users fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Users</p>
+                  </div>
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-settings fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Settings</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main> <!-- main -->
+    </div> <!-- .wrapper -->
+</body>
+
+     <script src="{{ url_for('static', filename='js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/moment.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/simplebar.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/daterangepicker.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.stickOnScroll.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/tinycolor-min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/config.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.mask.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/select2.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.steps.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.validate.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.timepicker.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/dropzone.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/uppy.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/quill.min.js')}}"></script>
+
+    <script>
+      $('#dataTable-1').DataTable(
+      {
+        autoWidth: true,
+        "lengthMenu": [
+          [10, 20, 40, -1],
+          [10, 20, 40, "All"]
+        ]
+      });
+    </script>
+    <script>
+      $('.select2').select2(
+      {
+        theme: 'bootstrap4',
+      });
+      $('.select2-multi').select2(
+      {
+        multiple: true,
+        theme: 'bootstrap4',
+      });
+      $('.drgpicker').daterangepicker(
+      {
+        singleDatePicker: true,
+        timePicker: false,
+        showDropdowns: true,
+        locale:
+        {
+          format: 'MM/DD/YYYY'
+        }
+      });
+      $('.time-input').timepicker(
+      {
+        'scrollDefault': 'now',
+        'zindex': '9999' /* fix modal open */
+      });
+      /** date range picker */
+      if ($('.datetimes').length)
+      {
+        $('.datetimes').daterangepicker(
+        {
+          timePicker: true,
+          startDate: moment().startOf('hour'),
+          endDate: moment().startOf('hour').add(32, 'hour'),
+          locale:
+          {
+            format: 'M/DD hh:mm A'
+          }
+        });
+      }
+      var start = moment().subtract(29, 'days');
+      var end = moment();
+
+      function cb(start, end)
+      {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+      }
+      $('#reportrange').daterangepicker(
+      {
+        startDate: start,
+        endDate: end,
+        ranges:
+        {
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+      }, cb);
+      cb(start, end);
+      $('.input-placeholder').mask("00/00/0000",
+      {
+        placeholder: "__/__/____"
+      });
+      $('.input-zip').mask('00000-000',
+      {
+        placeholder: "____-___"
+      });
+      $('.input-money').mask("#.##0,00",
+      {
+        reverse: true
+      });
+      $('.input-phoneus').mask('(000) 000-0000');
+      $('.input-mixed').mask('AAA 000-S0S');
+      $('.input-ip').mask('0ZZ.0ZZ.0ZZ.0ZZ',
+      {
+        translation:
+        {
+          'Z':
+          {
+            pattern: /[0-9]/,
+            optional: true
+          }
+        },
+        placeholder: "___.___.___.___"
+      });
+      // editor
+      var editor = document.getElementById('editor');
+      if (editor)
+      {
+        var toolbarOptions = [
+          [
+          {
+            'font': []
+          }],
+          [
+          {
+            'header': [1, 2, 3, 4, 5, 6, false]
+          }],
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote', 'code-block'],
+          [
+          {
+            'header': 1
+          },
+          {
+            'header': 2
+          }],
+          [
+          {
+            'list': 'ordered'
+          },
+          {
+            'list': 'bullet'
+          }],
+          [
+          {
+            'script': 'sub'
+          },
+          {
+            'script': 'super'
+          }],
+          [
+          {
+            'indent': '-1'
+          },
+          {
+            'indent': '+1'
+          }], // outdent/indent
+          [
+          {
+            'direction': 'rtl'
+          }], // text direction
+          [
+          {
+            'color': []
+          },
+          {
+            'background': []
+          }], // dropdown with defaults from theme
+          [
+          {
+            'align': []
+          }],
+          ['clean'] // remove formatting button
+        ];
+        var quill = new Quill(editor,
+        {
+          modules:
+          {
+            toolbar: toolbarOptions
+          },
+          theme: 'snow'
+        });
+      }
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function()
+      {
+        'use strict';
+        window.addEventListener('load', function()
+        {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form)
+          {
+            form.addEventListener('submit', function(event)
+            {
+              if (form.checkValidity() === false)
+              {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+
+<script>
+        window.addEventListener("beforeunload", function () {
+        navigator.sendBeacon("{{ url_for('logout') }}");
+    });
+    </script>
+<script src="{{ url_for('static', filename='js/apps.js')}}"></script>
+
+{% endif %}
+{% endblock %}
